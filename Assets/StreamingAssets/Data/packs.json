@@ -1,0 +1,414 @@
+{
+  "PACKS": {
+    "SKY": [
+      {
+        "w": 4,
+        "units": [
+          {
+            "t": "BAT",
+            "n": 4
+          }
+        ]
+      },
+      {
+        "w": 3,
+        "units": [
+          {
+            "t": "GHOST",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 2,
+        "units": [
+          {
+            "t": "SNOW_BAT",
+            "n": 3
+          }
+        ]
+      },
+      {
+        "w": 1,
+        "units": [
+          {
+            "t": "GHOST",
+            "n": 1,
+            "lead": true
+          },
+          {
+            "t": "BAT",
+            "n": 4
+          }
+        ]
+      }
+    ],
+    "FOREST": [
+      {
+        "w": 4,
+        "units": [
+          {
+            "t": "SLIME",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 3,
+        "units": [
+          {
+            "t": "GOBLIN",
+            "n": 3
+          }
+        ]
+      },
+      {
+        "w": 2,
+        "units": [
+          {
+            "t": "GOBLIN",
+            "n": 2
+          },
+          {
+            "t": "SLIME",
+            "n": 1
+          }
+        ]
+      },
+      {
+        "w": 2,
+        "units": [
+          {
+            "t": "PREY",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 1,
+        "units": [
+          {
+            "t": "GOBLIN",
+            "n": 1,
+            "lead": true
+          },
+          {
+            "t": "GOBLIN",
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "LAKE": [
+      {
+        "w": 3,
+        "units": [
+          {
+            "t": "SLIME",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 2,
+        "units": [
+          {
+            "t": "CRAB",
+            "n": 1
+          }
+        ]
+      },
+      {
+        "w": 2,
+        "units": [
+          {
+            "t": "PREY",
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "JUNGLE": [
+      {
+        "w": 4,
+        "units": [
+          {
+            "t": "RAT",
+            "n": 4
+          }
+        ]
+      },
+      {
+        "w": 3,
+        "units": [
+          {
+            "t": "SPIDER",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 2,
+        "units": [
+          {
+            "t": "CRAB",
+            "n": 1
+          },
+          {
+            "t": "RAT",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 1,
+        "units": [
+          {
+            "t": "SPIDER",
+            "n": 1,
+            "lead": true
+          },
+          {
+            "t": "RAT",
+            "n": 3
+          }
+        ]
+      }
+    ],
+    "HOLLOW": [
+      {
+        "w": 4,
+        "units": [
+          {
+            "t": "BAT",
+            "n": 4
+          }
+        ]
+      },
+      {
+        "w": 3,
+        "units": [
+          {
+            "t": "GHOST",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 2,
+        "units": [
+          {
+            "t": "SPIDER",
+            "n": 1
+          },
+          {
+            "t": "BAT",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 1,
+        "units": [
+          {
+            "t": "GHOST",
+            "n": 1,
+            "lead": true
+          },
+          {
+            "t": "BAT",
+            "n": 3
+          }
+        ]
+      }
+    ],
+    "AUTUMN": [
+      {
+        "w": 4,
+        "units": [
+          {
+            "t": "BANDIT",
+            "n": 3
+          }
+        ]
+      },
+      {
+        "w": 3,
+        "units": [
+          {
+            "t": "WARDEN",
+            "n": 1
+          },
+          {
+            "t": "GOBLIN",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 2,
+        "units": [
+          {
+            "t": "RAT",
+            "n": 3
+          }
+        ]
+      },
+      {
+        "w": 1,
+        "units": [
+          {
+            "t": "WARDEN",
+            "n": 1,
+            "lead": true
+          },
+          {
+            "t": "BANDIT",
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "SNOW": [
+      {
+        "w": 4,
+        "units": [
+          {
+            "t": "FROST_SLIME",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 3,
+        "units": [
+          {
+            "t": "SNOW_BAT",
+            "n": 4
+          }
+        ]
+      },
+      {
+        "w": 2,
+        "units": [
+          {
+            "t": "ICE_MAGE",
+            "n": 1
+          },
+          {
+            "t": "FROST_SLIME",
+            "n": 1
+          }
+        ]
+      },
+      {
+        "w": 1,
+        "units": [
+          {
+            "t": "ICE_MAGE",
+            "n": 1,
+            "lead": true
+          },
+          {
+            "t": "SNOW_BAT",
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "DESERT": [
+      {
+        "w": 3,
+        "units": [
+          {
+            "t": "SAND_CRAB",
+            "n": 1
+          }
+        ]
+      },
+      {
+        "w": 3,
+        "units": [
+          {
+            "t": "BANDIT",
+            "n": 3
+          }
+        ]
+      },
+      {
+        "w": 3,
+        "units": [
+          {
+            "t": "CULTIST",
+            "n": 1
+          },
+          {
+            "t": "SPIDER",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 1,
+        "units": [
+          {
+            "t": "CULTIST",
+            "n": 1,
+            "lead": true
+          },
+          {
+            "t": "BANDIT",
+            "n": 2
+          }
+        ]
+      }
+    ],
+    "VOLCANO": [
+      {
+        "w": 4,
+        "units": [
+          {
+            "t": "MAGMA_SLIME",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 3,
+        "units": [
+          {
+            "t": "EMBER_SPIDER",
+            "n": 2
+          }
+        ]
+      },
+      {
+        "w": 2,
+        "units": [
+          {
+            "t": "CULTIST",
+            "n": 2
+          },
+          {
+            "t": "MAGMA_SLIME",
+            "n": 1
+          }
+        ]
+      },
+      {
+        "w": 1,
+        "units": [
+          {
+            "t": "MAGMA_SLIME",
+            "n": 1,
+            "lead": true
+          },
+          {
+            "t": "EMBER_SPIDER",
+            "n": 2
+          }
+        ]
+      }
+    ]
+  }
+}

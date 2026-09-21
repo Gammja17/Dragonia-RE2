@@ -1,0 +1,326 @@
+[
+  {
+    "where": "lines",
+    "src": "(c) => [ { who: 'Kairon', text: '버텼군. 생각보다 오래.' }, { who: 'Kairon', text: '엘더. 이 아이, 몸이 한 뼘 자랐소.' }, { who: 'Elder', text: '벌써? 떨어진 지 얼마 되지도 않았는데.' }, { who: 'Kairon', text: '자세는 아직 엉망이오. 다만 맞고도 눈을 안 "
+  },
+  {
+    "where": "lines",
+    "src": "(c) => [ { who: 'Kairon', text: '이제 안 봐줘도 되겠군.' }, { who: 'Elder', text: '모두 나와 보게. 할 말이 있다.' }, { who: 'Elder', text: `이 아이가 오늘 어른의 몸이 되었다. ${BREATH[c.element] || '제'} 숨결을 제 것으로 다룬다.` }, { who: 'Elde"
+  },
+  {
+    "where": "lines",
+    "src": "(c) => [ { who: 'Kairon', text: '졌다.' }, { who: 'Kairon', text: '이런 날이 올 줄은 알았지만, 이렇게 빠를 줄은 몰랐다.' }, { who: 'Kairon', text: '스무 해 동안 제자를 안 받은 건 자신이 없어서다. 가르쳐 본 적이 없었으니까.' }, { who: 'Kairon', text: '이제"
+  },
+  {
+    "where": "lines",
+    "src": "() => [ { who: 'Kairon', text: '불과 얼음과 번개가 한 몸에. 얘기 속에만 있는 줄 알았다.' }, { who: 'Elder', text: '삼원룡. 마지막으로 이 이름을 불러 본 게 내가 태어나기 전이다.' }, { who: 'Elder', text: '(엘더가 처음으로 고개를 숙였다.)' }, { who: 'Elder', tex"
+  },
+  {
+    "where": "ev_nara.when",
+    "src": "c => c.s.elderTutorialDone && c.map === 'DOJO'"
+  },
+  {
+    "where": "ev_first_night.when",
+    "src": "c => c.night && c.day >= 2 && c.lessons >= 1 && c.map === 'VILLAGE'"
+  },
+  {
+    "where": "ev_board.when",
+    "src": "c => c.map === 'VILLAGE' && c.done('m1')"
+  },
+  {
+    "where": "ev_mark.when",
+    "src": "c => c.s.story.rites.includes(1) && c.night && (c.map === 'VILLAGE' || c.map === 'DEN_MINE')"
+  },
+  {
+    "where": "ev_seiran_mark.when",
+    "src": "c => c.map === 'FALLS' && c.s.story.clues.includes('mark') && (c.s.story.events || []).includes('ev_falls')"
+  },
+  {
+    "where": "ev_morgath.when",
+    "src": "c => c.done('m3') && !c.done('m4') && !c.active('m4') && c.map === 'HOLLOW'"
+  },
+  {
+    "where": "ev_zalgora.when",
+    "src": "c => c.done('m4') && !c.done('m5') && !c.active('m5') && c.map === 'JUNGLE'"
+  },
+  {
+    "where": "ev_glacia.when",
+    "src": "c => c.done('m5') && !c.done('m5a') && !c.active('m5a') && c.map === 'VILLAGE'"
+  },
+  {
+    "where": "ev_basil.when",
+    "src": "c => c.done('m5a') && !c.done('m5b') && !c.active('m5b') && c.map === 'DESERT'"
+  },
+  {
+    "where": "ev_ignar.when",
+    "src": "c => c.done('m5b') && !c.done('m6') && !c.active('m6')"
+  },
+  {
+    "where": "ev_den_moved.when",
+    "src": "c => c.map === 'VILLAGE' && c.s.den && c.s.den.built"
+  },
+  {
+    "where": "ev_falls.when",
+    "src": "c => c.map === 'FALLS'"
+  },
+  {
+    "where": "ev_gathering.when",
+    "src": "c => c.map === 'FALLS' && c.gathering"
+  },
+  {
+    "where": "ev_cloudtop.when",
+    "src": "c => c.map === 'CLOUDTOP'"
+  },
+  {
+    "where": "ev_waystone.when",
+    "src": "c => c.s.entities.props.some(p => p.type === 'WAYSTONE' && Math.hypot(p.x - c.s.player.x, p.y - c.s.player.y) < 340) && c.map !== 'VILLAGE'"
+  },
+  {
+    "where": "ev_cave.when",
+    "src": "c => c.s.entities.props.some(p => p.type === 'CAVE' && Math.hypot(p.x - c.s.player.x, p.y - c.s.player.y) < 360)"
+  },
+  {
+    "where": "ev_sky.when",
+    "src": "c => c.map === 'SKY_RUINS'"
+  },
+  {
+    "where": "ev_snowland.when",
+    "src": "c => c.map === 'SNOW_ROAD'"
+  },
+  {
+    "where": "ev_volcano_mark.when",
+    "src": "c => c.map === 'VOLCANO' && (c.s.story.events || []).includes('ev_volcano') && c.s.story.rites.includes(3)"
+  },
+  {
+    "where": "ev_volcano.when",
+    "src": "c => c.map === 'VOLCANO'"
+  },
+  {
+    "where": "FANG1.desc",
+    "src": "(r) => `주는 피해 +${Math.round(r * 4)}%`"
+  },
+  {
+    "where": "FANG2.desc",
+    "src": "(r) => `브레스 피해 +${Math.round(r * 6)}%`"
+  },
+  {
+    "where": "FANG3.desc",
+    "src": "(r) => `스킬 피해 +${Math.round(r * 7)}%`"
+  },
+  {
+    "where": "FANG4.desc",
+    "src": "() => '체력이 35% 아래일 때 주는 피해 +45%'"
+  },
+  {
+    "where": "SCALE1.desc",
+    "src": "(r) => `최대 체력 +${r * 25}`"
+  },
+  {
+    "where": "SCALE2.desc",
+    "src": "(r) => `받는 피해 -${Math.round(r * 3)}%`"
+  },
+  {
+    "where": "SCALE3.desc",
+    "src": "(r) => `허기 소모 -${Math.round(r * 8)}%`"
+  },
+  {
+    "where": "SCALE4.desc",
+    "src": "() => '하루 한 번, 쓰러질 공격을 체력 1로 버티고 3초간 무적'"
+  },
+  {
+    "where": "WING1.desc",
+    "src": "(r) => `이동 속도 +${Math.round(r * 3)}%`"
+  },
+  {
+    "where": "WING2.desc",
+    "src": "(r) => `대시 재사용 대기 -${Math.round(r * 8)}%`"
+  },
+  {
+    "where": "WING3.desc",
+    "src": "(r) => `스킬 대기 시간 -${Math.round(r * 4)}%`"
+  },
+  {
+    "where": "WING4.desc",
+    "src": "() => '대시한 뒤 3초 동안 브레스 연사 속도 +35%'"
+  },
+  {
+    "where": "FANG1.desc",
+    "src": "(r) => `주는 피해 +${Math.round(r * 4)}%`"
+  },
+  {
+    "where": "FANG2.desc",
+    "src": "(r) => `브레스 피해 +${Math.round(r * 6)}%`"
+  },
+  {
+    "where": "FANG3.desc",
+    "src": "(r) => `스킬 피해 +${Math.round(r * 7)}%`"
+  },
+  {
+    "where": "FANG4.desc",
+    "src": "() => '체력이 35% 아래일 때 주는 피해 +45%'"
+  },
+  {
+    "where": "SCALE1.desc",
+    "src": "(r) => `최대 체력 +${r * 25}`"
+  },
+  {
+    "where": "SCALE2.desc",
+    "src": "(r) => `받는 피해 -${Math.round(r * 3)}%`"
+  },
+  {
+    "where": "SCALE3.desc",
+    "src": "(r) => `허기 소모 -${Math.round(r * 8)}%`"
+  },
+  {
+    "where": "SCALE4.desc",
+    "src": "() => '하루 한 번, 쓰러질 공격을 체력 1로 버티고 3초간 무적'"
+  },
+  {
+    "where": "WING1.desc",
+    "src": "(r) => `이동 속도 +${Math.round(r * 3)}%`"
+  },
+  {
+    "where": "WING2.desc",
+    "src": "(r) => `대시 재사용 대기 -${Math.round(r * 8)}%`"
+  },
+  {
+    "where": "WING3.desc",
+    "src": "(r) => `스킬 대기 시간 -${Math.round(r * 4)}%`"
+  },
+  {
+    "where": "WING4.desc",
+    "src": "() => '대시한 뒤 3초 동안 브레스 연사 속도 +35%'"
+  },
+  {
+    "where": "gate",
+    "src": "s => s.story.lessons.length >= 5"
+  },
+  {
+    "where": "gate",
+    "src": "s => (s.story.events || []).includes('ev_gathering')"
+  },
+  {
+    "where": "gate",
+    "src": "s => (s.story.events || []).includes('ev_gathering')"
+  },
+  {
+    "where": "gate",
+    "src": "s => (s.story.events || []).includes('ev_gathering')"
+  },
+  {
+    "where": "gate",
+    "src": "s => (s.story.events || []).includes('ev_gathering')"
+  },
+  {
+    "where": "gate",
+    "src": "s => s.quests.done.includes('m3')"
+  },
+  {
+    "where": "gate",
+    "src": "s => s.quests.done.includes('g1')"
+  },
+  {
+    "where": "when",
+    "src": "s => s.weather.type !== 'CLEAR'"
+  },
+  {
+    "where": "when",
+    "src": "s => s.dayTime < 0.22 || s.dayTime > 0.84"
+  },
+  {
+    "where": "when",
+    "src": "s => s.event === 'BLOOD_MOON'"
+  },
+  {
+    "where": "when",
+    "src": "s => s.raid.active"
+  },
+  {
+    "where": "when",
+    "src": "s => s.raid.count >= 3 && !s.raid.active"
+  },
+  {
+    "where": "when",
+    "src": "s => s.kids.length > 0"
+  },
+  {
+    "where": "when",
+    "src": "s => s.partner"
+  },
+  {
+    "where": "when",
+    "src": "s => s.bossesDefeated.MORGATH"
+  },
+  {
+    "where": "when",
+    "src": "s => s.bossesDefeated.ZALGORA"
+  },
+  {
+    "where": "when",
+    "src": "s => s.player.stageIndex >= 3"
+  },
+  {
+    "where": "when",
+    "src": "s => s.player.hp < s.player.maxHp * 0.4"
+  },
+  {
+    "where": "m1.needs",
+    "src": "s => s.tutorial.toured"
+  },
+  {
+    "where": "k1.needs",
+    "src": "s => s.story.lessons.length >= 2"
+  },
+  {
+    "where": "k2.needs",
+    "src": "s => s.story.lessons.length >= 4"
+  },
+  {
+    "where": "ch1.when",
+    "src": "s => s.day >= 2"
+  },
+  {
+    "where": "ch1b.when",
+    "src": "s => s.story.lessons.length >= 1"
+  },
+  {
+    "where": "ch2.when",
+    "src": "s => s.story.lessons.length >= 2"
+  },
+  {
+    "where": "ch3.when",
+    "src": "s => s.raid.count >= 1 && s.story.lessons.length >= 2"
+  },
+  {
+    "where": "ch4.when",
+    "src": "s => s.bossesDefeated.MORGATH"
+  },
+  {
+    "where": "ch5.when",
+    "src": "s => s.bossesDefeated.ZALGORA"
+  },
+  {
+    "where": "ch6.when",
+    "src": "s => s.bossesDefeated.GLACIA && s.bossesDefeated.BASIL"
+  },
+  {
+    "where": "ending.when",
+    "src": "s => s.bossesDefeated.IGNAR"
+  },
+  {
+    "where": "needs",
+    "src": "(s) => s.story.lessons.length >= 1"
+  },
+  {
+    "where": "needs",
+    "src": "(s) => s.story.lessons.length >= 3 && s.quests.done.includes('m3')"
+  },
+  {
+    "where": "needs",
+    "src": "(s) => s.story.lessons.length >= 6 && Object.keys(s.bossesDefeated).length >= 1"
+  },
+  {
+    "where": "needs",
+    "src": "(s) => s.story.lessons.length >= 8 && Object.keys(s.bossesDefeated).length >= 3"
+  }
+]

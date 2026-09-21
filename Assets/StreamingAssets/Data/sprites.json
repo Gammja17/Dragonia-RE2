@@ -1,0 +1,697 @@
+{
+  "DRAGON_SHEETS": {
+    "WESTERN": {
+      "type": "perDir",
+      "images": {
+        "right": "assets/sprites/dragons/western_right.png",
+        "down": "assets/sprites/dragons/western_down.png",
+        "left": "assets/sprites/dragons/western_left.png",
+        "up": "assets/sprites/dragons/western_up.png"
+      },
+      "fw": 205,
+      "fh": 161,
+      "anims": {
+        "move": {
+          "row": 0,
+          "count": 4,
+          "fps": 8
+        },
+        "idle": {
+          "row": 1,
+          "count": 4,
+          "fps": 5
+        },
+        "hit": {
+          "row": 2,
+          "count": 4,
+          "fps": 12,
+          "loop": false
+        },
+        "attack": {
+          "row": 3,
+          "count": 4,
+          "fps": 10,
+          "loop": false
+        }
+      },
+      "head": {
+        "down": [
+          0.48,
+          0.3
+        ],
+        "left": [
+          0.28,
+          0.36
+        ],
+        "right": [
+          0.72,
+          0.36
+        ],
+        "up": [
+          0.5,
+          0.12
+        ]
+      },
+      "scale": 0.72,
+      "anchor": {
+        "x": 0.45,
+        "y": 0.8
+      },
+      "flying": true,
+      "zones": [
+        {
+          "hue": 0,
+          "range": 30,
+          "refL": 0.35,
+          "target": "body"
+        },
+        {
+          "hue": 48,
+          "range": 22,
+          "refL": 0.5,
+          "target": "wing"
+        }
+      ]
+    },
+    "WYVERN": {
+      "type": "rows",
+      "images": {
+        "sheet": "assets/sprites/dragons/wyvern.png"
+      },
+      "fw": 144,
+      "fh": 128,
+      "rows": {
+        "up": 0,
+        "right": 1,
+        "down": 2,
+        "left": 3
+      },
+      "anims": {
+        "idle": {
+          "cols": [
+            1,
+            0,
+            1,
+            2
+          ],
+          "fps": 5
+        },
+        "move": {
+          "cols": [
+            0,
+            1,
+            2,
+            1
+          ],
+          "fps": 9
+        },
+        "attack": {
+          "cols": [
+            0,
+            2,
+            0
+          ],
+          "fps": 10,
+          "loop": false
+        },
+        "hit": {
+          "cols": [
+            2,
+            1
+          ],
+          "fps": 10,
+          "loop": false
+        }
+      },
+      "head": {
+        "down": [
+          0.5,
+          0.36
+        ],
+        "left": [
+          0.22,
+          0.42
+        ],
+        "right": [
+          0.78,
+          0.42
+        ],
+        "up": [
+          0.5,
+          0.2
+        ]
+      },
+      "scale": 0.85,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "flying": true,
+      "zones": [
+        {
+          "hue": 0,
+          "range": 30,
+          "refL": 0.35,
+          "target": "body"
+        },
+        {
+          "hue": 48,
+          "range": 22,
+          "refL": 0.5,
+          "target": "wing"
+        }
+      ]
+    },
+    "HYDRA": {
+      "type": "rows",
+      "images": {
+        "sheet": "assets/sprites/dragons/hydra.png"
+      },
+      "fw": 144,
+      "fh": 128,
+      "rows": {
+        "up": 0,
+        "right": 1,
+        "down": 2,
+        "left": 3
+      },
+      "anims": {
+        "idle": {
+          "cols": [
+            1,
+            0,
+            1,
+            2
+          ],
+          "fps": 5
+        },
+        "move": {
+          "cols": [
+            0,
+            1,
+            2,
+            1
+          ],
+          "fps": 9
+        },
+        "attack": {
+          "cols": [
+            0,
+            2,
+            0
+          ],
+          "fps": 10,
+          "loop": false
+        },
+        "hit": {
+          "cols": [
+            2,
+            1
+          ],
+          "fps": 10,
+          "loop": false
+        }
+      },
+      "head": {
+        "down": [
+          0.5,
+          0.36
+        ],
+        "left": [
+          0.22,
+          0.42
+        ],
+        "right": [
+          0.78,
+          0.42
+        ],
+        "up": [
+          0.5,
+          0.2
+        ]
+      },
+      "scale": 0.9,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.85
+      },
+      "flying": true,
+      "zones": [
+        {
+          "hue": 215,
+          "range": 35,
+          "refL": 0.35,
+          "target": "body"
+        },
+        {
+          "hue": 48,
+          "range": 22,
+          "refL": 0.5,
+          "target": "wing"
+        }
+      ]
+    },
+    "BEHEMOTH": {
+      "type": "rows",
+      "images": {
+        "sheet": "assets/sprites/dragons/behemoth.png"
+      },
+      "fw": 96,
+      "fh": 128,
+      "rows": {
+        "up": 0,
+        "right": 1,
+        "down": 2,
+        "left": 3
+      },
+      "anims": {
+        "idle": {
+          "cols": [
+            1
+          ],
+          "fps": 1
+        },
+        "move": {
+          "cols": [
+            0,
+            1,
+            2,
+            1
+          ],
+          "fps": 7
+        },
+        "attack": {
+          "cols": [
+            0,
+            2,
+            1
+          ],
+          "fps": 9,
+          "loop": false
+        },
+        "hit": {
+          "cols": [
+            2,
+            1
+          ],
+          "fps": 10,
+          "loop": false
+        }
+      },
+      "head": {
+        "down": [
+          0.5,
+          0.06
+        ],
+        "left": [
+          0.33,
+          0.06
+        ],
+        "right": [
+          0.62,
+          0.06
+        ],
+        "up": [
+          0.5,
+          0.06
+        ]
+      },
+      "scale": 0.95,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.95
+      },
+      "flying": false,
+      "zones": [
+        {
+          "hue": 120,
+          "range": 40,
+          "refL": 0.35,
+          "target": "body"
+        },
+        {
+          "hue": 42,
+          "range": 22,
+          "refL": 0.45,
+          "target": "wing"
+        }
+      ]
+    },
+    "BONE": {
+      "type": "rows",
+      "images": {
+        "sheet": "assets/sprites/dragons/bone.png"
+      },
+      "fw": 96,
+      "fh": 128,
+      "rows": {
+        "up": 0,
+        "right": 1,
+        "down": 2,
+        "left": 3
+      },
+      "anims": {
+        "idle": {
+          "cols": [
+            1
+          ],
+          "fps": 1
+        },
+        "move": {
+          "cols": [
+            0,
+            1,
+            2,
+            1
+          ],
+          "fps": 7
+        },
+        "attack": {
+          "cols": [
+            0,
+            2,
+            1
+          ],
+          "fps": 9,
+          "loop": false
+        },
+        "hit": {
+          "cols": [
+            2,
+            1
+          ],
+          "fps": 10,
+          "loop": false
+        }
+      },
+      "head": {
+        "down": [
+          0.5,
+          0.06
+        ],
+        "left": [
+          0.33,
+          0.06
+        ],
+        "right": [
+          0.62,
+          0.06
+        ],
+        "up": [
+          0.5,
+          0.06
+        ]
+      },
+      "scale": 1.1,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.95
+      },
+      "flying": false,
+      "zones": []
+    },
+    "LOOK": {
+      "type": "static",
+      "images": {
+        "sheet": "assets/sprites/dragons/looks.png"
+      },
+      "fw": 80,
+      "fh": 64,
+      "cols": 13,
+      "boxes": [
+        {
+          "x": 12,
+          "y": 17,
+          "w": 56,
+          "h": 47
+        },
+        {
+          "x": 15,
+          "y": 13,
+          "w": 49,
+          "h": 51
+        },
+        {
+          "x": 10,
+          "y": 21,
+          "w": 59,
+          "h": 43
+        },
+        {
+          "x": 9,
+          "y": 20,
+          "w": 62,
+          "h": 44
+        },
+        {
+          "x": 8,
+          "y": 16,
+          "w": 63,
+          "h": 48
+        },
+        {
+          "x": 11,
+          "y": 17,
+          "w": 57,
+          "h": 47
+        },
+        {
+          "x": 8,
+          "y": 15,
+          "w": 64,
+          "h": 49
+        },
+        {
+          "x": 10,
+          "y": 11,
+          "w": 60,
+          "h": 53
+        },
+        {
+          "x": 19,
+          "y": 6,
+          "w": 41,
+          "h": 58
+        },
+        {
+          "x": 10,
+          "y": 23,
+          "w": 59,
+          "h": 41
+        },
+        {
+          "x": 8,
+          "y": 16,
+          "w": 63,
+          "h": 48
+        },
+        {
+          "x": 9,
+          "y": 24,
+          "w": 62,
+          "h": 40
+        },
+        {
+          "x": 11,
+          "y": 7,
+          "w": 57,
+          "h": 57
+        },
+        {
+          "x": 12,
+          "y": 6,
+          "w": 56,
+          "h": 58
+        },
+        {
+          "x": 18,
+          "y": 17,
+          "w": 43,
+          "h": 47
+        },
+        {
+          "x": 9,
+          "y": 18,
+          "w": 62,
+          "h": 46
+        },
+        {
+          "x": 15,
+          "y": 7,
+          "w": 50,
+          "h": 57
+        },
+        {
+          "x": 19,
+          "y": 13,
+          "w": 42,
+          "h": 51
+        },
+        {
+          "x": 19,
+          "y": 13,
+          "w": 42,
+          "h": 51
+        },
+        {
+          "x": 2,
+          "y": 7,
+          "w": 75,
+          "h": 57
+        },
+        {
+          "x": 7,
+          "y": 14,
+          "w": 66,
+          "h": 50
+        },
+        {
+          "x": 11,
+          "y": 14,
+          "w": 57,
+          "h": 50
+        },
+        {
+          "x": 12,
+          "y": 14,
+          "w": 56,
+          "h": 50
+        },
+        {
+          "x": 10,
+          "y": 14,
+          "w": 59,
+          "h": 50
+        },
+        {
+          "x": 10,
+          "y": 13,
+          "w": 59,
+          "h": 51
+        },
+        {
+          "x": 10,
+          "y": 14,
+          "w": 59,
+          "h": 50
+        }
+      ],
+      "anims": {
+        "idle": {
+          "fps": 1
+        },
+        "move": {
+          "fps": 1
+        },
+        "attack": {
+          "fps": 4,
+          "loop": false,
+          "count": 2
+        },
+        "hit": {
+          "fps": 6,
+          "loop": false,
+          "count": 2
+        }
+      },
+      "scale": 2.5,
+      "anchor": {
+        "x": 0.5,
+        "y": 0.97
+      },
+      "flying": false,
+      "zones": [],
+      "head": {
+        "left": [
+          0.2,
+          0.3
+        ],
+        "right": [
+          0.8,
+          0.3
+        ],
+        "up": [
+          0.2,
+          0.3
+        ],
+        "down": [
+          0.2,
+          0.3
+        ]
+      }
+    },
+    "SHADOW": {
+      "type": "side",
+      "images": {
+        "sheet": "assets/sprites/dragons/shadow.png"
+      },
+      "fw": 357,
+      "fh": 192,
+      "anims": {
+        "idle": {
+          "row": 0,
+          "count": 10,
+          "fps": 8
+        },
+        "move": {
+          "row": 1,
+          "count": 10,
+          "fps": 10
+        },
+        "attack": {
+          "row": 2,
+          "count": 10,
+          "fps": 14,
+          "loop": false
+        },
+        "hit": {
+          "row": 3,
+          "count": 10,
+          "fps": 16,
+          "loop": false
+        }
+      },
+      "scale": 1,
+      "anchor": {
+        "x": 0.52,
+        "y": 0.92
+      },
+      "flying": false,
+      "zones": []
+    }
+  },
+  "LOOK_NAMES": [
+    "은빛 날개",
+    "분홍 실뱀",
+    "분홍 비늘",
+    "청록 금날개",
+    "숲그늘",
+    "노을 날개",
+    "푸른 파도",
+    "이끼 날개",
+    "무지개 이무기",
+    "하늘빛",
+    "자수정",
+    "붉은 새끼",
+    "심해의 고룡",
+    "밤하늘",
+    "독니",
+    "복숭아 날개",
+    "옥빛 이무기",
+    "호박 꼬마",
+    "호박 꼬마 2",
+    "폭풍 날개",
+    "그림자",
+    "흑요석",
+    "검붉은 용암",
+    "먹구름",
+    "검은 황금",
+    "잿불"
+  ],
+  "PLAYABLE_SPECIES": [
+    "WESTERN",
+    "WYVERN",
+    "HYDRA",
+    "BEHEMOTH"
+  ]
+}

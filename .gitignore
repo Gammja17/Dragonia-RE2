@@ -1,0 +1,25 @@
+# Unity 가 만들어 내는 것들 — 저장소에 넣지 않는다
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+*.csproj
+*.unityproj
+*.sln
+*.user
+*.booproj
+*.pidb
+*.suo
+sysinfo.txt
+*.apk
+*.aab
+*.unitypackage
+.vscode/
+.idea/
+
+# 내려받은 에셋 원본(팩 전체). 게임에 쓰는 것만 Assets/Art 로 옮긴다
+Art_Source/
