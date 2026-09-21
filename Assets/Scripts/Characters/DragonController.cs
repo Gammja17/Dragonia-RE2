@@ -1,4 +1,5 @@
 using UnityEngine;
+using Dragonia.Combat;
 
 namespace Dragonia.Characters
 {
@@ -14,7 +15,7 @@ namespace Dragonia.Characters
     /// 체력·허기·성장 같은 수치는 여기 두지 않는다. 그건 데이터에서 오고, 이건 몸을 움직일 뿐이다.
     /// </summary>
     [RequireComponent(typeof(CharacterController))]
-    public class DragonController : MonoBehaviour
+    public class DragonController : MonoBehaviour, IDamageable
     {
         [Header("움직임")]
         public float walkSpeed = 3.5f;
@@ -38,11 +39,27 @@ namespace Dragonia.Characters
 
         [Header("공격")]
         public float biteTime = 0.5f;
+        public float biteDamage = 14f;
+        public float biteReach = 2.6f;
+        public float biteArc = 100f;          // 앞쪽 이만큼의 부채꼴 안에 있으면 맞는다
         public float breathTime = 0.9f;
+        public float breathDamage = 7f;
+        [Tooltip("숨결 한 줄기가 몇 알로 나가는지. 알마다 판정이 따로 난다.")]
+        public int breathPellets = 6;
+        public float breathCost = 18f;
+
+        [Header("몸")]
+        public float maxHp = 100f;
+        [Tooltip("지금 쓰는 숨결 속성. 2D 의 1/2/3 키와 같다.")]
+        public string element = Element.Fire;
 
         public float Stamina { get; private set; }
         public bool Invulnerable { get; private set; }
         public bool Busy => _state != State.Free;
+
+        public float Hp { get; private set; }
+        public Faction Side => Faction.Player;
+        public bool Alive => Hp > 0f;
 
         enum State { Free, Dodge, Bite, Breath }
         State _state;
@@ -61,6 +78,7 @@ namespace Dragonia.Characters
             _visual = GetComponentInChildren<DragonVisual>();
             _cam = Camera.main != null ? Camera.main.GetComponent<LockOnCamera>() : null;
             Stamina = maxStamina;
+            Hp = maxHp;
         }
 
         void Update()
@@ -101,9 +119,14 @@ namespace Dragonia.Characters
 
             if (_visual != null) _visual.SetSpeed(wish.magnitude * (wantsRun ? 1f : 0.5f));
 
+            // 숫자 키로 숨결 속성을 바꾼다 (2D 와 같다)
+            if (Input.GetKeyDown(KeyCode.Alpha1)) element = Element.Fire;
+            if (Input.GetKeyDown(KeyCode.Alpha2)) element = Element.Ice;
+            if (Input.GetKeyDown(KeyCode.Alpha3)) element = Element.Thunder;
+
             if (Input.GetKeyDown(KeyCode.Space) && Ready(dodgeCost)) StartDodge(wish);
-            else if (Input.GetMouseButtonDown(0)) Enter(State.Bite, Anim.Bite);
-            else if (Input.GetMouseButtonDown(1)) Enter(State.Breath, Anim.Breath);
+            else if (Input.GetMouseButtonDown(0)) { Enter(State.Bite, Anim.Bite); Invoke(nameof(BiteHit), biteTime * 0.4f); }
+            else if (Input.GetMouseButtonDown(1) && Ready(breathCost)) { Spend(breathCost); Enter(State.Breath, Anim.Breath); Breathe(); }
         }
 
         void StartDodge(Vector3 wish)
@@ -170,6 +193,45 @@ namespace Dragonia.Characters
         {
             Stamina = Mathf.Max(0f, Stamina - amount);
             if (Stamina <= 0f) _exhaust = exhaustPause;       // 바닥나면 잠깐 아무것도 못 한다
+        }
+
+        /// <summary>물기. 앞쪽 부채꼴 안의 상대를 한 번에 친다 — 3인칭에서는 이게 주 공격이다.</summary>
+        void BiteHit()
+        {
+            Vector3 origin = transform.position + Vector3.up;
+            foreach (var col in Physics.OverlapSphere(origin, biteReach))
+            {
+                Vector3 to = col.transform.position - origin;
+                to.y = 0f;
+                if (Vector3.Angle(transform.forward, to) > biteArc * 0.5f) continue;
+                Hit.Apply(col, Faction.Player, biteDamage, element, origin);
+            }
+        }
+
+        /// <summary>
+        /// 숨결. 2D 에서는 마우스로 조준해 연사했지만, 3인칭에서는 락온한 상대를 향해 뿜는다.
+        /// 한 줄기가 여러 알로 나가서 가까울수록 많이 맞는다 — 붙어서 쏘는 게 이득이 되도록.
+        /// </summary>
+        void Breathe()
+        {
+            var visual = _visual;
+            Vector3 from = visual != null && visual.Mouth != null ? visual.Mouth.position : transform.position + Vector3.up * 1.2f;
+            Vector3 dir = _cam != null ? _cam.AimDirection(from) : transform.forward;
+            transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
+
+            for (int i = 0; i < breathPellets; i++)
+            {
+                float spread = (i - (breathPellets - 1) * 0.5f) * 4.5f;
+                Vector3 d = Quaternion.Euler(Random.Range(-3f, 3f), spread, 0f) * dir;
+                Projectile.Spawn(from, d, Faction.Player, breathDamage, element, 17f, 0.55f, 0.35f);
+            }
+        }
+
+        public void TakeDamage(float amount, string element, Vector3 from)
+        {
+            if (!Alive || Invulnerable) return;
+            Hp = Mathf.Max(0f, Hp - amount);
+            if (_visual != null) _visual.Play(Hp > 0f ? Anim.Hit : Anim.Die);
         }
 
         void Regen(float dt)

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Dragonia.Combat;
 
 namespace Dragonia.Enemies
 {
@@ -16,7 +17,7 @@ namespace Dragonia.Enemies
     /// 숨 고르기도 마찬가지로 설계의 일부다 — 때릴 틈이 여기서 나온다.
     /// 돌진이 빗나가면 벽에 박혀 더 오래 기절하는 것도 2D 에서 가져왔다.
     /// </summary>
-    public class EnemyBrain : MonoBehaviour
+    public class EnemyBrain : MonoBehaviour, IDamageable
     {
         public enum Move { Chase, Charge, Flank, Kite, Guard, Summon }
         public enum Phase { Idle, Approach, Tell, Act, Recover, Stun }
@@ -50,6 +51,8 @@ namespace Dragonia.Enemies
 
         public bool Alive => _hp > 0f;
         public Phase Current => _phase;
+        public Faction Side => Faction.Enemy;
+        public bool Invulnerable => false;
 
         float _hp;
         Phase _phase = Phase.Idle;
@@ -185,7 +188,7 @@ namespace Dragonia.Enemies
 
         static Vector3 Flat(Vector3 v) { v.y = 0f; return v; }
 
-        public void TakeDamage(float amount)
+        public void TakeDamage(float amount, string element, Vector3 from)
         {
             if (!Alive) return;
             _hp -= amount;

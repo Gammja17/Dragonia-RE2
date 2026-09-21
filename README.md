@@ -1,4 +1,4 @@
-# Dragonia 3D
+# DRAGONIA : RE2
 
 2D 드래고니아를 3D 액션 RPG로 옮긴다. **이야기와 흐름은 그대로**, 전투만 탑뷰 슈팅에서
 3인칭 젤다식으로 바꾼다.
@@ -66,16 +66,42 @@ id → 프리팹은 `AssetRegistry` 한 곳에서만 잇는다. 교체할 때 �
 
 ```
 Assets/Scripts/
-  Registry/AssetRegistry.cs     id → 프리팹. 갈아끼우는 자리
-  Characters/DragonVisual.cs    애니메이션 이름표 + 모습 갈아끼우기
-  Characters/DragonController.cs  3인칭 조작 · 구르기(무적) · 기력
-  Characters/LockOnCamera.cs    어깨 너머 카메라 · 락온
-  Enemies/EnemyBrain.cs         예고 → 발동 → 숨 고르기 (2D에서 옮김)
-  Data/GameData.cs              JSON 읽기
-  UI/UIManager.cs               프리팹으로만 만드는 화면
-Assets/StreamingAssets/Data/    뽑아 온 이야기 22개 묶음
-Tools/export-data.mjs           2D 데이터 → JSON
+  Registry/AssetRegistry.cs       id → 프리팹. 갈아끼우는 자리
+  Characters/DragonVisual.cs      애니메이션 이름표 + 모습 갈아끼우기
+  Characters/DragonController.cs  3인칭 조작 · 구르기(무적) · 기력 · 물기 · 숨결
+  Characters/LockOnCamera.cs      어깨 너머 카메라 · 락온
+  Combat/Damage.cs                피해 통로 (같은 편끼리는 안 맞는다)
+  Combat/Hazard.cs                예고 후 터지는 바닥 장판
+  Combat/Projectile.cs            날아가는 것 (직선 · 유도)
+  Enemies/EnemyBrain.cs           예고 → 발동 → 숨 고르기 (2D에서 옮김)
+  Enemies/BossBrain.cs            보스 패턴 14종, 데이터가 순서를 정한다
+  Data/GameData.cs                JSON 읽기
+  UI/UIManager.cs                 프리팹으로만 만드는 화면
+Assets/StreamingAssets/Data/      뽑아 온 이야기 22개 묶음
+Tools/export-data.mjs             2D 데이터 → JSON
+Tools/check.py                    데이터·괄호 자가 점검
 ```
+
+## 보스 패턴
+
+어떤 패턴을 어떤 차례로 쓰는지는 **코드가 아니라 데이터**에 있다
+(`enemies.json` 의 `BOSSES[id].patterns`). 순서를 바꾸려면 2D 쪽
+`src/data/enemies.js` 를 고치고 내보내기를 다시 돌린다.
+
+| 보스 | 속성 | 패턴 |
+|---|---|---|
+| 모르가스 | 얼음 | RING · SUMMON · AIMED · BONE_RAIN |
+| 잘고라 | 번개 | TWIN_BEAM · AIMED · SPIRAL · AIMED · CHARGE |
+| 글라시아 | 얼음 | HOMING · ICE_FIELD · BLIZZARD · RING · HOMING |
+| 바실 | 불 | BURROW · CHARGE · QUAKE · AIMED · BURROW |
+| 이그나르 | 불 | METEOR_RAIN · AIMED · FLAME_WALL · CHARGE · SPIRAL |
+
+열넷 중 여섯(BONE_RAIN · ICE_FIELD · QUAKE · METEOR_RAIN · FLAME_WALL · CHARGE)은
+전부 `Hazard` 하나로 만들어진다 — 바닥에 예고를 깔았다가 터지는 장판이다.
+반지름과 터지는 시각만 다르다.
+
+**지키는 규칙:** 예고 시간은 0.7초 밑으로 내리지 않는다. 보고 피할 수 없는 공격은 넣지 않는다.
+체력이 절반 밑이면 발악에 들어가 탄이 늘고 쉬는 틈이 짧아진다.
 
 ## 조작 (지금 정해 둔 것)
 
@@ -105,9 +131,10 @@ Tools/export-data.mjs           2D 데이터 → JSON
 ## 다음
 
 - [ ] 아레나 시험판 — 내 용 하나, 보스 하나, 락온·구르기·숨결
-- [ ] 숨결 판정 (지금은 애니메이션만, 실제 판정 없음)
-- [ ] 보스 패턴 — 데이터에 이미 있다 (`RING`, `SUMMON`, `AIMED`, `BONE_RAIN`)
+- [x] 숨결 · 물기 판정
+- [x] 보스 패턴 14종
 - [ ] 함수 81개 C#으로 옮기기
+- [ ] 예고 표식 · 피격 이펙트 (지금은 회색 원통으로 대신한다)
 - [ ] 지도 19장을 3D 구역으로
 - [ ] 생활 시스템 (짝·자식·굴·대장간)
 
