@@ -28,8 +28,9 @@ namespace Dragonia.Combat
             if (OrbPrefab != null) go = Instantiate(OrbPrefab, pos, Quaternion.identity);
             else
             {
-                go = Core.Primitives.Box("탄", Element.ColorOf(element), Vector3.one * radius * 2f);
+                go = Core.Primitives.Box("탄", Core.Primitives.Glow(Element.ColorOf(element)), Vector3.one * radius * 1.6f);
                 go.transform.position = pos;
+                go.transform.rotation = Random.rotation;
             }
 
             var p = go.AddComponent<Projectile>();
@@ -56,12 +57,18 @@ namespace Dragonia.Combat
             if (Physics.SphereCast(transform.position, _radius, _dir, out var hit, step.magnitude + 0.05f,
                                    ~0, QueryTriggerInteraction.Collide))
             {
-                if (Hit.Apply(hit.collider, _side, _damage, _element, transform.position)) { Destroy(gameObject); return; }
+                if (Hit.Apply(hit.collider, _side, _damage, _element, transform.position))
+                {
+                    Feedback.Burst(hit.point, Element.ColorOf(_element), 5, 5f);
+                    Destroy(gameObject);
+                    return;
+                }
                 // 같은 편이 아니라 지형에 맞았으면 거기서 끝난다
                 if (hit.collider.GetComponentInParent<IDamageable>() == null) { Destroy(gameObject); return; }
             }
 
             transform.position += step;
+            transform.Rotate(260f * dt, 190f * dt, 0f);      // 굴러가며 날아야 상자가 아니라 불덩이로 보인다
         }
     }
 }

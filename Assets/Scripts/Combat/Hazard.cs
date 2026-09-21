@@ -49,10 +49,10 @@ namespace Dragonia.Combat
             else
             {
                 // 표식 프리팹이 아직 없어도 보여야 한다. 납작한 상자로 대신한다
-                var disc = Core.Primitives.Box("예고", Element.ColorOf(_element), new Vector3(_radius * 2f, 0.04f, _radius * 2f));
+                var disc = Core.Primitives.Box("예고", Core.Primitives.Marker(Element.ColorOf(_element)), new Vector3(_radius * 2f, 0.04f, _radius * 2f));
                 disc.transform.SetParent(transform, false);
                 disc.transform.localPosition = new Vector3(0f, 0.03f, 0f);
-                Core.Primitives.MakeTransparent(disc.GetComponent<Renderer>());
+                disc.transform.localRotation = Quaternion.Euler(0f, 45f, 0f);
                 _marker = disc.transform;
             }
             Tint(0.25f);
@@ -95,7 +95,13 @@ namespace Dragonia.Combat
         {
             _burst = true;
             Tint(0.5f);
-            DamageInside(_damage, true);
+            // 피해가 0 이면 길만 보여 주는 표식이다 (보스의 돌진 경로). 터지는 연출도 하지 않는다
+            if (_damage > 0f)
+            {
+                DamageInside(_damage, true);
+                Feedback.Spike(transform.position, Element.ColorOf(_element), _radius);
+                Feedback.Burst(transform.position + Vector3.up * 0.4f, Element.ColorOf(_element), 6, 6f);
+            }
             if (_linger <= 0f) Destroy(gameObject, 0.12f);
         }
 
@@ -104,7 +110,7 @@ namespace Dragonia.Combat
             foreach (var col in Physics.OverlapSphere(transform.position, _radius))
             {
                 var target = col.GetComponentInParent<IDamageable>();
-                if (target == null || target.Side == _side || target.Invulnerable) continue;
+                if (target == null || target.Side == _side || !target.Alive || target.Invulnerable) continue;
 
                 // 도넛이면 가운데는 안전하다
                 if (_inner > 0f)

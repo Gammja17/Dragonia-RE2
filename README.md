@@ -92,7 +92,7 @@ id → 프리팹은 `AssetRegistry` 한 곳에서만 잇는다. 교체할 때 �
 Assets/Scripts/
   Registry/AssetRegistry.cs       id → 프리팹. 갈아끼우는 자리
   Characters/DragonVisual.cs      애니메이션 이름표 + 모습 갈아끼우기
-  Characters/DragonController.cs  3인칭 조작 · 구르기(무적) · 기력 · 물기 · 숨결
+  Characters/DragonController.cs  3인칭 조작 · 대시(무적) · 비행 · 물기 · 숨결 · 내려찍기
   Characters/LockOnCamera.cs      어깨 너머 카메라 · 락온
   Combat/Damage.cs                피해 통로 (같은 편끼리는 안 맞는다)
   Combat/Hazard.cs                예고 후 터지는 바닥 장판
@@ -131,11 +131,13 @@ Tools/check.py                    데이터·괄호 자가 점검
 
 | | |
 |---|---|
+| 화면 클릭 | 마우스 잡기 (Esc 로 풀기) |
 | WASD | 카메라 기준 이동 |
-| Shift(꾹) | 달리기 — 기력을 먹는다 |
-| Space | 구르기 — 가운데 구간만 무적 |
-| 왼클릭 | 물기 |
-| 오른클릭 | 숨결 |
+| Shift | 탁 = 무적 대시 · 꾹 = 달리기 |
+| Space | 뛰기 — 공중에서 연타하면 날갯짓으로 올라간다, 떼면 활공 |
+| C | 날개 접고 떨어지기 |
+| 왼클릭 | 땅: 물기 · 공중: 내려찍기 |
+| 오른클릭 / F (꾹) | 숨결 — 공중에서는 제자리에 떠서 쏜다 |
 | Q | 락온 걸기/풀기 |
 
 ## 웹으로 내보내기 (GitHub Pages)
@@ -172,7 +174,7 @@ Tools/check.py                    데이터·괄호 자가 점검
 5. 적: `CharacterController` + `EnemyBrain` + `DragonVisual`
 6. 무료 모델을 받아 `AssetRegistry`에 id와 함께 등록
 
-모델이 없어도 4번까지 하면 회색 캡슐로 굴러다닐 수 있다. **조작감부터 본다.**
+모델이 없어도 4번까지 하면 상자로 지은 대역 용(ProceduralDragon)으로 뛰어다닐 수 있다. **조작감부터 본다.**
 
 ## 다음
 

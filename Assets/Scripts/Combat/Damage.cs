@@ -11,6 +11,7 @@ namespace Dragonia.Combat
     public interface IDamageable
     {
         Faction Side { get; }
+        bool Alive { get; }
         bool Invulnerable { get; }
         void TakeDamage(float amount, string element, Vector3 from);
     }
@@ -28,9 +29,15 @@ namespace Dragonia.Combat
         public static Color ColorOf(string element)
         {
             var el = Data.GameData.Elements;
-            if (el != null && el[element]?["color"] != null &&
+            if (el != null && element != null && el[element]?["color"] != null &&
                 ColorUtility.TryParseHtmlString(el[element]["color"].ToString(), out var c)) return c;
-            return Color.white;
+            // 데이터가 아직 안 왔을 때(웹에서는 받아 오는 데 시간이 걸린다)의 색
+            switch (element)
+            {
+                case Ice: return new Color(0.5f, 0.83f, 1f);
+                case Thunder: return new Color(1f, 0.89f, 0.48f);
+                default: return new Color(1f, 0.48f, 0.16f);
+            }
         }
     }
 
@@ -40,7 +47,7 @@ namespace Dragonia.Combat
         public static bool Apply(Collider col, Faction attacker, float damage, string element, Vector3 from)
         {
             var target = col.GetComponentInParent<IDamageable>();
-            if (target == null || target.Side == attacker || target.Invulnerable) return false;
+            if (target == null || target.Side == attacker || !target.Alive || target.Invulnerable) return false;
             target.TakeDamage(damage, element, from);
             return true;
         }

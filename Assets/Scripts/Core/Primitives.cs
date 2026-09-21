@@ -3,39 +3,37 @@ using UnityEngine;
 namespace Dragonia.Core
 {
     /// <summary>
-    /// 모델이 아직 없을 때 세우는 대역과 표식을 만든다.
+    /// 상자 하나를 만드는 도구. 로우폴리 용, 탄, 예고 표식, 파편이 전부 이걸로 만들어진다.
     ///
     /// GameObject.CreatePrimitive 를 쓰지 않는다. 그건 언제나 콜라이더를 같이 붙이는데,
-    /// 우리는 보이기만 하면 되니 콜라이더가 필요 없고, 게다가 빌드에서 안 쓰는 클래스를
-    /// 쳐 내고 나면 붙일 클래스가 없어서 터진다:
+    /// 우리는 보이기만 하면 되고, 게다가 빌드가 안 쓰는 클래스를 쳐 내고 나면
+    /// 붙일 클래스가 없어서 터진다 (Can't add component because class 'SphereCollider' doesn't exist!).
     ///
-    ///     Can't add component because class 'SphereCollider' doesn't exist!
-    ///
-    /// 그래서 그물(mesh)만 코드로 만들어 쓴다. 물리와 아무 상관이 없어지니
-    /// 빌드가 무엇을 쳐 내든 멀쩡하다.
+    /// 재질은 Shader.Find 로 찾지 않고 Resources/Materials 의 에셋에서 복사한다.
+    /// 빌드는 "어떤 에셋도 안 쓰는 셰이더 변형"을 쳐 내기 때문에, 반투명이나 발광을
+    /// 실행 중에 켜려고 하면 웹 빌드에서는 그 변형이 없어 분홍색이 된다.
+    /// 에셋 셋(Base · Marker · Glow)은 Editor/ArenaBuilder 가 만들어 둔다.
     /// </summary>
     public static class Primitives
     {
         static Mesh _cube;
-        static Material _material;
+        static Material _base, _marker, _glow;
 
-        /// <summary>정육면체 그물 하나를 만들어 두고 계속 돌려쓴다.</summary>
+        /// <summary>정육면체 그물 하나를 만들어 두고 계속 돌려쓴다. 면마다 꼭짓점을 따로 둬서 각지게 보인다.</summary>
         public static Mesh Cube
         {
             get
             {
                 if (_cube != null) return _cube;
-                _cube = new Mesh { name = "대역 정육면체" };
-
-                // 면마다 꼭짓점을 따로 둔다 — 그래야 면이 각지게 보인다
+                _cube = new Mesh { name = "상자" };
                 Vector3[] v =
                 {
-                    new(-.5f,-.5f,-.5f), new(.5f,-.5f,-.5f), new(.5f,.5f,-.5f), new(-.5f,.5f,-.5f),  // 앞
-                    new(.5f,-.5f,.5f), new(-.5f,-.5f,.5f), new(-.5f,.5f,.5f), new(.5f,.5f,.5f),      // 뒤
-                    new(-.5f,.5f,-.5f), new(.5f,.5f,-.5f), new(.5f,.5f,.5f), new(-.5f,.5f,.5f),      // 위
-                    new(-.5f,-.5f,.5f), new(.5f,-.5f,.5f), new(.5f,-.5f,-.5f), new(-.5f,-.5f,-.5f),  // 아래
-                    new(-.5f,-.5f,.5f), new(-.5f,-.5f,-.5f), new(-.5f,.5f,-.5f), new(-.5f,.5f,.5f),  // 왼
-                    new(.5f,-.5f,-.5f), new(.5f,-.5f,.5f), new(.5f,.5f,.5f), new(.5f,.5f,-.5f),      // 오른
+                    new(-.5f,-.5f,-.5f), new(.5f,-.5f,-.5f), new(.5f,.5f,-.5f), new(-.5f,.5f,-.5f),
+                    new(.5f,-.5f,.5f), new(-.5f,-.5f,.5f), new(-.5f,.5f,.5f), new(.5f,.5f,.5f),
+                    new(-.5f,.5f,-.5f), new(.5f,.5f,-.5f), new(.5f,.5f,.5f), new(-.5f,.5f,.5f),
+                    new(-.5f,-.5f,.5f), new(.5f,-.5f,.5f), new(.5f,-.5f,-.5f), new(-.5f,-.5f,-.5f),
+                    new(-.5f,-.5f,.5f), new(-.5f,-.5f,-.5f), new(-.5f,.5f,-.5f), new(-.5f,.5f,.5f),
+                    new(.5f,-.5f,-.5f), new(.5f,-.5f,.5f), new(.5f,.5f,.5f), new(.5f,.5f,-.5f),
                 };
                 int[] t = new int[36];
                 for (int f = 0; f < 6; f++)
@@ -52,42 +50,43 @@ namespace Dragonia.Core
             }
         }
 
-        static Material BaseMaterial
+        static Material Load(ref Material cache, string name)
         {
-            get
+            if (cache != null) return cache;
+            cache = Resources.Load<Material>("Materials/" + name);
+            if (cache == null)
             {
-                if (_material != null) return _material;
-                // 지금 프로젝트가 쓰는 셰이더를 따라간다 (기본 파이프라인이든 URP 든)
-                var shader = Shader.Find("Universal Render Pipeline/Lit") ?? Shader.Find("Standard") ?? Shader.Find("Diffuse");
-                _material = new Material(shader) { name = "대역 재질" };
-                return _material;
+                // 에셋이 아직 없을 때(에디터에서 처음 돌릴 때)만 여기로 온다
+                var shader = Shader.Find("Standard") ?? Shader.Find("Diffuse");
+                cache = new Material(shader) { name = name + " (임시)" };
             }
+            return cache;
         }
 
-        /// <summary>보이기만 하는 상자 하나. 콜라이더도 물리도 없다.</summary>
-        public static GameObject Box(string name, Color color, Vector3 scale)
+        /// <summary>불투명한 단색.</summary>
+        public static Material Solid(Color c) => new Material(Load(ref _base, "Base")) { color = c };
+
+        /// <summary>반투명. 바닥 예고 표식과 충격파에 쓴다.</summary>
+        public static Material Marker(Color c) => new Material(Load(ref _marker, "Marker")) { color = c };
+
+        /// <summary>스스로 빛나는 색. 눈, 탄, 파편.</summary>
+        public static Material Glow(Color c, float intensity = 1.6f)
+        {
+            var m = new Material(Load(ref _glow, "Glow")) { color = c };
+            m.SetColor("_EmissionColor", c * intensity);
+            return m;
+        }
+
+        /// <summary>재질을 같이 쓰는 상자. 용처럼 상자가 많은 것은 색마다 재질 하나를 나눠 쓴다.</summary>
+        public static GameObject Box(string name, Material shared, Vector3 scale)
         {
             var go = new GameObject(name);
             go.AddComponent<MeshFilter>().sharedMesh = Cube;
-            var r = go.AddComponent<MeshRenderer>();
-            r.sharedMaterial = new Material(BaseMaterial) { color = color };
+            go.AddComponent<MeshRenderer>().sharedMaterial = shared;
             go.transform.localScale = scale;
             return go;
         }
 
-        /// <summary>반투명하게 그릴 수 있도록 재질을 바꾼다 (예고 표식에 쓴다).</summary>
-        public static void MakeTransparent(Renderer r)
-        {
-            if (r == null) return;
-            var m = r.material;
-            m.SetFloat("_Surface", 1f);                 // URP: 0 불투명, 1 투명
-            m.SetFloat("_Mode", 3f);                    // 기본 파이프라인의 Transparent
-            m.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-            m.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-            m.SetInt("_ZWrite", 0);
-            m.DisableKeyword("_ALPHATEST_ON");
-            m.EnableKeyword("_ALPHABLEND_ON");
-            m.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
-        }
+        public static GameObject Box(string name, Color color, Vector3 scale) => Box(name, Solid(color), scale);
     }
 }
