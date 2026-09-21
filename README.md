@@ -114,6 +114,28 @@ Tools/check.py                    데이터·괄호 자가 점검
 | 오른클릭 | 숨결 |
 | Q | 락온 걸기/풀기 |
 
+## 웹으로 내보내기 (GitHub Pages)
+
+페이지는 이미 살아 있다 → <https://gammja17.github.io/Dragonia-RE2/>
+지금은 안내 페이지만 있고, 빌드가 나오면 그 자리에서 바로 플레이할 수 있다.
+
+빌드는 Unity 에서 직접 뽑는다. CI 로 돌릴 수도 있지만 Unity 라이선스를 비밀값으로
+넣어야 해서, 혼자 만드는 동안은 직접 뽑는 쪽이 빠르다.
+
+1. **File ▸ Build Settings ▸ WebGL ▸ Switch Platform**
+2. **Player Settings ▸ Publishing Settings** 에서 — *여기가 중요하다*
+   - **Compression Format: `Disabled`** (또는 `Gzip` + **`Decompression Fallback` 켜기**)
+   - **`Data Caching` 끄기**
+3. `docs/game/` 으로 빌드
+4. 커밋해서 올리면 `.../Dragonia-RE2/game/` 에서 돌아간다
+
+**압축 설정을 그냥 두면 흰 화면만 나온다.** GitHub Pages 는 `Content-Encoding` 헤더를
+못 붙여서, 브라우저가 `.br`/`.gz` 파일을 압축된 줄 모르고 그대로 읽으려다 실패한다.
+`Decompression Fallback` 을 켜면 Unity 가 자바스크립트로 직접 풀어서 이 문제를 피한다.
+
+빌드가 20~40MB 쯤 된다. 파일 하나가 100MB 를 넘으면 GitHub 가 거부하니,
+그때는 `Compression Format: Gzip` 으로 줄인다.
+
 ## 지금 해야 하는 일 (에디터에서)
 
 코드로 못 하는 것들이다. 순서대로 하면 보스 하나짜리 시험판이 돈다.
