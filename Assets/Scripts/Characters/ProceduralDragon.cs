@@ -36,7 +36,7 @@ namespace Dragonia.Characters
         Color _cBody, _cDark, _cBelly, _cWing, _cHorn, _cGlow;
 
         string _state = Anim.Idle;
-        float _stateTime, _t, _phase, _speed, _fly, _flapKick, _flash, _breath, _aimPitch, _aimPitchTarget;
+        float _stateTime, _t, _phase, _speed, _fly, _flapKick, _flash, _breath, _aimPitch, _aimPitchTarget, _recoil;
         bool _flying, _breathing, _built;
 
         const float HeadRest = 30f;
@@ -330,6 +330,9 @@ namespace Dragonia.Characters
 
         public void Flash() => _flash = 1f;
 
+        /// <summary>탄을 쏜 반동. 고개가 뒤로 튀었다 돌아온다</summary>
+        public void Recoil() => _recoil = 1f;
+
         public void SetGlow(Color c)
         {
             _cGlow = c;
@@ -422,11 +425,11 @@ namespace Dragonia.Characters
             _aimPitch = Mathf.Lerp(_aimPitch, _aimPitchTarget, 1f - Mathf.Exp(-12f * dt));
             if (_breath > 0f)
             {
-                jaw = Mathf.Max(jaw, 40f * _breath);
-                neck0 += (12f - _aimPitch * 0.45f) * _breath;
-                head += (-6f - _aimPitch * 0.5f) * _breath;
-                shake = Mathf.Max(shake, _breath);
+                jaw = Mathf.Max(jaw, (16f + 26f * _recoil) * _breath);
+                neck0 += (12f - _aimPitch * 0.45f - 16f * _recoil) * _breath;
+                head += (-6f - _aimPitch * 0.5f - 8f * _recoil) * _breath;
             }
+            _recoil = Mathf.MoveTowards(_recoil, 0f, dt * 7f);
 
             // 몸 전체: 걸을 때 들썩이고, 날 때는 날갯짓과 반대로 출렁인다
             float flapHz = 1.3f + 2.2f * _flapKick;

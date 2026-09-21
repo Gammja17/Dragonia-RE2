@@ -142,6 +142,9 @@ namespace Dragonia.Characters
         /// <summary>조준의 위아래 각도 (도). 대역 용은 목을 그쪽으로 든다. 진짜 모델은 IK 를 달 때 쓴다</summary>
         public void SetAimPitch(float degrees) { if (_proc != null) _proc.SetAimPitch(degrees); }
 
+        /// <summary>탄 한 번 쏠 때마다 고개가 뒤로 튄다</summary>
+        public void Recoil() { if (_proc != null) _proc.Recoil(); }
+
         public void FlapKick() { if (_proc != null) _proc.FlapKick(); }
         public void Flash() { if (_proc != null) _proc.Flash(); }
 

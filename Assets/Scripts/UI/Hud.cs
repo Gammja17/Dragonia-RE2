@@ -18,8 +18,8 @@ namespace Dragonia.UI
     /// </summary>
     public class Hud : MonoBehaviour
     {
-        public RectTransform playerHp, stamina, bossHp;
-        public Image staminaFill, elementChip;
+        public RectTransform playerHp, bossHp;
+        public Image elementChip;
         public Text bossName, center, hint;
         public GameObject bossGroup;
 
@@ -40,9 +40,6 @@ namespace Dragonia.UI
             {
                 _shownHp = Mathf.MoveTowards(_shownHp, _player.Hp / _player.maxHp, Time.unscaledDeltaTime * 1.5f);
                 Fill(playerHp, _shownHp);
-                float st = _player.Stamina / _player.maxStamina;
-                Fill(stamina, st);
-                if (staminaFill != null) staminaFill.color = st < 0.2f ? new Color(0.9f, 0.35f, 0.25f) : new Color(0.49f, 0.83f, 0.42f);
                 if (elementChip != null) elementChip.color = Element.ColorOf(_player.element);
             }
 

@@ -12,11 +12,12 @@ namespace Dragonia.Characters
     ///   Space      땅에서는 뛰어오르고, 공중에서는 누를 때마다 날갯짓 한 번 —
     ///              연타하면 올라가고, 가만히 두면 날개를 편 채 천천히 내려온다
     ///   C (꾹)     날개를 접고 빨리 떨어진다
-    ///   왼클릭·F (꾹) 숨결. 발이 묶이지 않는다 — 걸으면서, 날면서 쏜다. 누르고 있는 동안 기력이 샌다
+    ///   왼클릭·F (꾹) 숨결. 2D 와 같은 탄막이다 — 속성마다 연사 속도·갈래 수·위력이 다르고 (데이터 그대로),
+    ///              발이 묶이지 않아서 걸으면서, 날면서 쏜다
     ///   오른클릭   땅: 물기 / 공중: 내려찍기 (상대에게 내리꽂고 착지 충격파)
     ///   1 2 3      불 · 얼음 · 번개. 눈빛이 같이 바뀐다
     ///
-    /// 나는 데는 기력이 든다. 바닥 장판은 날아서 피할 수 있지만 영원히 떠 있을 수는 없다.
+    /// 기력은 없다. 마음껏 날고 마음껏 쏜다 — 대시만 짧은 재사용 대기가 있다 (무적을 이어 붙이지 못하게).
     /// </summary>
     [RequireComponent(typeof(CharacterController))]
     public class DragonController : MonoBehaviour, IDamageable
@@ -34,8 +35,6 @@ namespace Dragonia.Characters
         public float glideGravity = -6f;
         public float glideFallMax = -2.5f;
         public float flySpeed = 9.5f;
-        public float flapCost = 4f;
-        public float glideDrain = 1.5f;
         public float maxHeight = 24f;
 
         [Header("대시")]
@@ -43,13 +42,8 @@ namespace Dragonia.Characters
         public float dodgeTime = 0.38f;
         [Tooltip("대시 중 안 맞는 구간. 처음과 끝은 맞는다 — 아무 때나 눌러도 다 피해지면 재미가 없다")]
         public float iFrameStart = 0.03f, iFrameEnd = 0.30f;
-        public float dodgeCost = 20f;
-
-        [Header("기력")]
-        public float maxStamina = 100f;
-        public float staminaRegen = 30f;
-        public float runDrain = 10f;
-        public float exhaustPause = 0.9f;
+        [Tooltip("대시를 다시 쓸 수 있을 때까지. 무적 구간을 이어 붙이지 못하게 한다")]
+        public float dodgeCooldown = 0.55f;
 
         [Header("물기")]
         public float biteTime = 0.5f;
@@ -58,20 +52,20 @@ namespace Dragonia.Characters
         public float biteArc = 120f;
 
         [Header("숨결")]
-        public float breathDamage = 5f;
-        public float breathInterval = 0.085f;
-        [Tooltip("뿜는 동안 1초에 새는 기력")]
-        public float breathDrain = 14f;
-        [Tooltip("이만큼은 있어야 뿜기 시작한다. 바닥난 직후에 찔끔찔끔 나오지 않게")]
-        public float breathMin = 8f;
-        [Tooltip("땅에서 뿜는 동안의 걸음 속도 배율")]
+        [Tooltip("연사 속도·갈래 수·위력·탄속은 elements.json 에서 온다. 여기는 데이터가 없을 때의 값과 3D 로 옮기는 배율")]
+        public float shotRate = 0.36f;
+        public float shotDamage = 8f;
+        [Tooltip("2D 의 탄속(px/초)을 m/초로. 620px/초 → 약 22m/초")]
+        public float shotSpeedScale = 1f / 28f;
+        [Tooltip("2D 는 화면이 좁아서 탄이 금방 사라진다. 3D 는 거리가 멀어서 더 오래 살린다")]
+        public float shotLifeScale = 2.2f;
+        [Tooltip("땅에서 쏘는 동안의 걸음 속도 배율")]
         public float breathMoveScale = 0.8f;
 
         [Header("내려찍기")]
         public float diveSpeed = 24f;
         public float diveDamage = 70f;
         public float diveRadius = 4f;
-        public float diveCost = 15f;
 
         [Header("몸")]
         public float maxHp = 100f;
@@ -79,7 +73,6 @@ namespace Dragonia.Characters
         public string element = Element.Fire;
 
         public float Hp { get; private set; }
-        public float Stamina { get; private set; }
         public Faction Side => Faction.Player;
         public bool Alive => Hp > 0f;
         public bool Invulnerable => _iframe || _hurt > 0f || !Alive;
@@ -87,7 +80,7 @@ namespace Dragonia.Characters
 
         enum State { Free, Dodge, Bite, Dive, Dead }
         State _state;
-        float _stateTime, _exhaust, _vy, _hurt, _nextPellet, _deadTimer;
+        float _stateTime, _vy, _hurt, _nextShot, _dodgeWait, _deadTimer;
         bool _grounded = true, _winged, _iframe, _biteDone, _breathing;
         Vector3 _dashDir, _diveDir, _knock;
 
@@ -99,7 +92,6 @@ namespace Dragonia.Characters
         {
             _cc = GetComponent<CharacterController>();
             _visual = GetComponentInChildren<DragonVisual>();
-            Stamina = maxStamina;
             Hp = maxHp;
         }
 
@@ -129,11 +121,6 @@ namespace Dragonia.Characters
                     return;
             }
 
-            // 기력: 땅에 발을 딛고 있을 때만 찬다
-            if (_exhaust > 0f) _exhaust -= dt;
-            else if (_grounded && _state == State.Free && !_breathing && !Input.GetKey(KeyCode.LeftShift))
-                Stamina = Mathf.Min(maxStamina, Stamina + staminaRegen * dt);
-
             if (_visual != null) _visual.SetFlying(!_grounded && _winged);
         }
 
@@ -146,18 +133,18 @@ namespace Dragonia.Characters
 
             // 숨결은 상태가 아니다. 누르고 있는 동안 걷기·날기 위에 얹혀서 나간다
             bool wantBreath = LockOnCamera.ReadyForInput && (Input.GetMouseButton(0) || Input.GetKey(KeyCode.F));
-            SetBreathing(wantBreath && Ready(_breathing ? 0.01f : breathMin));
+            SetBreathing(wantBreath);
+            _nextShot -= dt;
+            _dodgeWait -= dt;
 
-            bool running = _grounded && moving && !_breathing && Input.GetKey(KeyCode.LeftShift) && Ready(1f);
-            if (running) Spend(runDrain * dt);
+            bool running = _grounded && moving && !_breathing && Input.GetKey(KeyCode.LeftShift);
 
             // Space: 땅에서는 뛰고, 공중에서는 날갯짓
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (_grounded) { _vy = jumpPower; _grounded = false; if (_visual != null) _visual.FlapKick(); }
-                else if (Ready(flapCost))
+                else
                 {
-                    Spend(flapCost);
                     _winged = true;
                     _vy = Mathf.Min(maxRise, Mathf.Max(_vy, 0f) + flapPower);
                     if (_visual != null) _visual.FlapKick();
@@ -178,7 +165,7 @@ namespace Dragonia.Characters
             if (Input.GetKeyDown(KeyCode.Alpha2)) SetElement(Element.Ice);
             if (Input.GetKeyDown(KeyCode.Alpha3)) SetElement(Element.Thunder);
 
-            if (Input.GetKeyDown(KeyCode.LeftShift) && Ready(dodgeCost)) { StartDodge(wish); return; }
+            if (Input.GetKeyDown(KeyCode.LeftShift) && _dodgeWait <= 0f) { StartDodge(wish); return; }
 
             // 첫 클릭은 커서를 잠그는 데 쓰인다. 그 클릭으로 허공을 물지 않게 한다
             if (!LockOnCamera.ReadyForInput) return;
@@ -186,7 +173,7 @@ namespace Dragonia.Characters
             if (Input.GetMouseButtonDown(1))
             {
                 if (_grounded) { _biteDone = false; Enter(State.Bite, Anim.Bite); }
-                else if (Ready(diveCost)) StartDive();
+                else StartDive();
             }
         }
 
@@ -200,7 +187,7 @@ namespace Dragonia.Characters
 
         void StartDodge(Vector3 wish)
         {
-            Spend(dodgeCost);
+            _dodgeWait = dodgeTime + dodgeCooldown;
             _dashDir = wish.sqrMagnitude > 0.01f ? wish.normalized : transform.forward;
             transform.rotation = Quaternion.LookRotation(_dashDir);
             Enter(State.Dodge, Anim.Dodge);
@@ -254,34 +241,46 @@ namespace Dragonia.Characters
         {
             if (on == _breathing) return;
             _breathing = on;
-            _nextPellet = 0.12f;                                    // 입을 벌리는 짧은 틈
             if (_visual != null) _visual.SetBreathing(on);
         }
 
+        /// <summary>
+        /// 2D 의 숨결 그대로: 속성마다 정해진 간격으로 한 번에 몇 갈래씩 쏜다.
+        /// 불은 세 갈래 산탄, 얼음은 느리고 센 한 발, 번개는 약한 연사.
+        /// </summary>
         void BreathStream(float dt)
         {
-            Spend(breathDrain * dt);
-
             Vector3 from = _visual != null && _visual.Mouth != null ? _visual.Mouth.position : transform.position + Vector3.up * 1.5f;
             Vector3 aim = _cam != null ? _cam.AimDirection(from, !_grounded) : transform.forward;
             Face(aim, dt * 1.6f);
             if (_visual != null) _visual.SetAimPitch(Mathf.Asin(Mathf.Clamp(aim.y, -1f, 1f)) * Mathf.Rad2Deg);
+            if (_nextShot > 0f) return;
 
-            // 한 번에 다 쏘지 않고 줄기로 흘려보낸다. 가까이서 쏠수록 많이 맞는다
-            _nextPellet -= dt;
-            while (_nextPellet <= 0f)
+            var el = Data.GameData.Elements?[element];
+            float rate = el?["rate"]?.ToObject<float>() ?? shotRate;
+            float damage = el?["damage"]?.ToObject<float>() ?? shotDamage;
+            int pellets = el?["pellets"]?.ToObject<int>() ?? 1;
+            float spread = (el?["spread"]?.ToObject<float>() ?? 0f) * Mathf.Rad2Deg;
+            float speed = (el?["speed"]?.ToObject<float>() ?? 620f) * shotSpeedScale;
+            float life = (el?["life"]?.ToObject<float>() ?? 0.6f) * shotLifeScale;
+            float size = (el?["radius"]?.ToObject<float>() ?? 44f) / 100f;
+
+            _nextShot = rate;
+            Vector3 up = Vector3.Cross(aim, Vector3.Cross(Vector3.up, aim)).normalized;
+            if (up.sqrMagnitude < 0.01f) up = Vector3.up;
+            for (int i = 0; i < pellets; i++)
             {
-                _nextPellet += breathInterval;
-                Vector3 d = Quaternion.Euler(Random.Range(-3.5f, 3.5f), Random.Range(-5f, 5f), 0f) * aim;
-                Projectile.Spawn(from, d, Faction.Player, breathDamage, element, 21f, 0.75f, 0.3f);
+                Vector3 d = Quaternion.AngleAxis((i - (pellets - 1) * 0.5f) * spread, up) * aim;
+                Projectile.Spawn(from, d, Faction.Player, damage, element, speed, life, size);
             }
+            Feedback.Burst(from + aim * 0.3f, Element.ColorOf(element), 3, 4f);
+            if (_visual != null) _visual.Recoil();
         }
 
         // ---------------------------------------------------------------- 내려찍기
 
         void StartDive()
         {
-            Spend(diveCost);
             Transform target = _cam != null ? _cam.Target : null;
             if (target != null) _diveDir = (_cam.TargetPoint - transform.position).normalized;
             else
@@ -328,12 +327,7 @@ namespace Dragonia.Characters
                 bool folding = Input.GetKey(KeyCode.C);
                 bool gliding = _winged && !folding;
                 _vy += (gliding ? glideGravity : gravity) * dt;
-                if (gliding)
-                {
-                    _vy = Mathf.Max(_vy, glideFallMax);
-                    Spend(glideDrain * dt);
-                    if (Stamina <= 0f) _winged = false;          // 기력이 다하면 날개가 접힌다
-                }
+                if (gliding) _vy = Mathf.Max(_vy, glideFallMax);
             }
             if (transform.position.y > maxHeight && _vy > 0f) _vy = 0f;
 
@@ -374,13 +368,6 @@ namespace Dragonia.Characters
             if (_visual != null) _visual.Play(Anim.Idle);
         }
 
-        bool Ready(float cost) => _exhaust <= 0f && Stamina >= cost;
-
-        void Spend(float amount)
-        {
-            Stamina = Mathf.Max(0f, Stamina - amount);
-            if (Stamina <= 0f) _exhaust = exhaustPause;
-        }
 
         public void TakeDamage(float amount, string element, Vector3 from)
         {

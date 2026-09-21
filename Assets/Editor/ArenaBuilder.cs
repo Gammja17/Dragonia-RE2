@@ -265,13 +265,11 @@ namespace Dragonia.EditorTools
             var hud = root.AddComponent<Hud>();
             var rt = root.transform;
 
-            // 왼쪽 아래: 체력과 기력
-            hud.playerHp = Bar(rt, "PlayerHp", new Vector2(0f, 0f), new Vector2(48f, 84f), new Vector2(460f, 26f), new Color(0.88f, 0.27f, 0.23f), out _);
-            hud.stamina = Bar(rt, "Stamina", new Vector2(0f, 0f), new Vector2(48f, 52f), new Vector2(360f, 14f), new Color(0.49f, 0.83f, 0.42f), out var stFill);
-            hud.staminaFill = stFill;
-            var chip = Img(rt, "Element", new Vector2(0f, 0f), new Vector2(48f, 122f), new Vector2(22f, 22f), Color.white);
+            // 왼쪽 아래: 체력과 고른 숨결
+            hud.playerHp = Bar(rt, "PlayerHp", new Vector2(0f, 0f), new Vector2(48f, 56f), new Vector2(460f, 26f), new Color(0.88f, 0.27f, 0.23f), out _);
+            var chip = Img(rt, "Element", new Vector2(0f, 0f), new Vector2(48f, 94f), new Vector2(22f, 22f), Color.white);
             hud.elementChip = chip;
-            Label(rt, "ElementLabel", font, "BREATH  [1] [2] [3]", 18, TextAnchor.MiddleLeft, new Vector2(0f, 0f), new Vector2(80f, 122f), new Vector2(400f, 24f), Parch);
+            Label(rt, "ElementLabel", font, "BREATH  [1] fire  [2] ice  [3] thunder", 18, TextAnchor.MiddleLeft, new Vector2(0f, 0f), new Vector2(80f, 94f), new Vector2(500f, 24f), Parch);
 
             // 위 가운데: 보스
             var group = new GameObject("Boss", typeof(RectTransform));
@@ -288,7 +286,7 @@ namespace Dragonia.EditorTools
             hud.center = Label(rt, "Center", font, "", 64, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), new Vector2(0f, 60f), new Vector2(1400f, 120f), Gold);
             hud.center.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             hud.hint = Label(rt, "Hint", font,
-                "WASD move   SHIFT dash / hold: run   SPACE jump, mash: FLY   C drop\nLMB (hold) breath - works while moving & flying   RMB bite (air: dive slam)   Q lock-on   1 2 3 element",
+                "WASD move   SHIFT dash / hold: run   SPACE jump, mash: FLY   C drop\nLMB (hold) shoot breath - also while flying   RMB bite (air: dive slam)   Q lock-on",
                 19, TextAnchor.LowerCenter, new Vector2(0.5f, 0f), new Vector2(0f, 22f), new Vector2(1500f, 60f), new Color(Parch.r, Parch.g, Parch.b, 0.75f));
             hud.hint.rectTransform.pivot = new Vector2(0.5f, 0f);
 

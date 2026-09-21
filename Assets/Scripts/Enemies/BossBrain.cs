@@ -19,6 +19,9 @@ namespace Dragonia.Enemies
     /// 3D 로 오면서 고친 것:
     ///   - 탄이 머리 높이로 날아가 플레이어 위를 지나갔다. 평면 패턴은 가슴 높이에서 쏘고,
     ///     조준 패턴은 플레이어의 몸통을 3차원으로 겨눈다 (날고 있어도 맞는다)
+    ///   - 보스도 난다. 패턴 두어 개마다 땅과 하늘을 오간다. 하늘에서는 플레이어 둘레를 돌며
+    ///     겨눠 쏘는 패턴으로 바꿔 쓰고 (평면 탄은 공중에서 쏘면 아무도 안 맞는다), 돌진은 급강하가 된다.
+    ///     물기는 안 닿으니 같이 날아올라 쏘거나 내려찍어야 한다
     ///   - 돌진이 CharacterController 로 움직인다. 기둥이나 벽에 박으면 기절한다 —
     ///     일부러 기둥 뒤로 유인하면 크게 때릴 틈이 난다
     /// </summary>
@@ -38,6 +41,13 @@ namespace Dragonia.Enemies
         public float chargeDamage = 22f;
         public float stunTime = 2.4f;
 
+        [Header("비행")]
+        public float flyHeight = 7.5f;
+        public float orbitSpeed = 5.5f;
+        public float orbitDistance = 15f;
+        public float diveSpeed = 24f;
+        public float slamRadius = 5f;
+
         // 2D 는 픽셀, 여기는 미터. 용 키가 대략 160px ≈ 4m 라서 40 으로 나눈다.
         const float PX = 1f / 40f;
 
@@ -51,8 +61,9 @@ namespace Dragonia.Enemies
         float _hp = 1f, _maxHp = 1f;
         string _element = Element.Ice;
         string[] _patterns = { "AIMED" };
-        bool _twin, _hidden, _busy, _charging, _chargeHit, _stunned;
-        int _patternIndex;
+        bool _twin, _hidden, _busy, _charging, _chargeHit, _stunned, _air, _diving;
+        int _patternIndex, _untilSwitch = 2;
+        float _orbitSign = 1f, _flapTimer;
         Vector3 _chargeDir;
 
         Transform _player;
@@ -111,10 +122,138 @@ namespace Dragonia.Enemies
 
         void Update()
         {
-            if (!Alive || _player == null) return;
+            if (!Alive) { _cc.Move(Vector3.down * 14f * Time.deltaTime); return; }      // 하늘에서 죽으면 떨어진다
+            if (_player == null) return;
             // 쉬는 동안에는 천천히 플레이어 쪽으로 돌아본다. 패턴 중에는 방향을 잠근다
             if (!_busy && !_stunned) Turn(AimFlat(), Time.deltaTime * 2.2f);
-            if (!_charging) _cc.Move(Vector3.down * 12f * Time.deltaTime);
+            if (_charging) return;
+            if (_air) Hover(Time.deltaTime);
+            else _cc.Move(Vector3.down * 12f * Time.deltaTime);
+        }
+
+        // 공중: 높이를 지키면서 플레이어 둘레를 돈다. 패턴을 쓰는 동안에는 느리게 흐른다
+        void Hover(float dt)
+        {
+            float vy = Mathf.Clamp((flyHeight - transform.position.y) * 2f, -6f, 7f);
+            Vector3 to = _player.position - transform.position; to.y = 0f;
+            float dist = to.magnitude;
+            Vector3 dir = dist > 0.01f ? to / dist : transform.forward;
+            Vector3 tangent = Vector3.Cross(Vector3.up, dir) * _orbitSign;
+            Vector3 planar = (tangent * 0.85f + dir * Mathf.Clamp((dist - orbitDistance) / 4f, -1f, 1f)) * orbitSpeed * (_busy ? 0.35f : 1f);
+
+            var flags = _cc.Move((planar + Vector3.up * vy) * dt);
+            if ((flags & CollisionFlags.Sides) != 0) _orbitSign = -_orbitSign;       // 기둥이나 벽에 걸리면 반대로 돈다
+
+            _flapTimer -= dt;
+            if (_flapTimer <= 0f) { _flapTimer = 0.55f; if (_visual != null) _visual.FlapKick(); }
+        }
+
+        IEnumerator TakeOff()
+        {
+            _busy = true;
+            Play(Characters.Anim.Tell);
+            yield return new WaitForSeconds(0.55f);
+            _air = true;
+            _orbitSign = Random.value < 0.5f ? -1f : 1f;
+            if (_visual != null) { _visual.SetFlying(true); _visual.FlapKick(); }
+            Play(Characters.Anim.Idle);
+            Feedback.Ring(Ground(transform.position), new Color(0.75f, 0.78f, 0.85f), 4f);
+            Feedback.Burst(transform.position + Vector3.up * 0.5f, new Color(0.75f, 0.78f, 0.85f), 12, 7f);
+            yield return new WaitForSeconds(1.1f);
+            _busy = false;
+        }
+
+        IEnumerator Land()
+        {
+            // 내려앉을 자리를 먼저 보여 준다. 밑에 있으면 깔린다
+            _busy = true;
+            Hazard.Spawn(Ground(transform.position), slamRadius, 0.8f, 16f, _element, Faction.Enemy);
+            yield return new WaitForSeconds(0.45f);
+            _air = false;
+            float t = 0f;
+            while (t < 1.2f && !_cc.isGrounded) { t += Time.deltaTime; yield return null; }
+            Touchdown();
+            yield return new WaitForSeconds(0.4f);
+            _busy = false;
+        }
+
+        void Touchdown()
+        {
+            _air = false;
+            if (_visual != null) _visual.SetFlying(false);
+            Feedback.Shake(0.8f);
+            Feedback.Burst(transform.position + Vector3.up * 0.4f, new Color(0.75f, 0.78f, 0.85f), 14, 8f);
+        }
+
+        /// <summary>공중 돌진 = 급강하. 플레이어가 서 있는(떠 있는) 자리로 내리꽂고, 땅에 닿으면 충격파가 퍼진다</summary>
+        IEnumerator DiveBomb(bool rage)
+        {
+            Vector3 target = _player.position + Vector3.up * 0.6f;
+            Hazard.Spawn(Ground(target), slamRadius, 0.9f, 0f, _element, Faction.Enemy);      // 표식만. 피해는 몸으로 준다
+            transform.rotation = Quaternion.LookRotation(AimFlat());
+            Play(Characters.Anim.Tell);
+            yield return new WaitForSeconds(rage ? 0.7f : 0.9f);
+
+            _chargeDir = (target - transform.position).normalized;
+            if (_chargeDir.y > -0.25f) _chargeDir = new Vector3(_chargeDir.x, -0.25f, _chargeDir.z).normalized;
+            _charging = true; _diving = true; _chargeHit = false;
+            Play(Characters.Anim.Dive);
+            float t = 0f;
+            bool landed = false;
+            while (t < 1.6f && Alive && _charging && !landed)
+            {
+                var flags = _cc.Move(_chargeDir * diveSpeed * Time.deltaTime);
+                landed = (flags & CollisionFlags.Below) != 0;
+                t += Time.deltaTime;
+                yield return null;
+            }
+            _charging = false; _diving = false;
+            if (_stunned) yield break;
+
+            if (landed)
+            {
+                Touchdown();
+                Feedback.Ring(transform.position, Element.ColorOf(_element), slamRadius);
+                Feedback.Shake(1.1f);
+                var hurt = _player.GetComponent<IDamageable>();
+                Vector3 d = _player.position - transform.position;
+                if (hurt != null && !hurt.Invulnerable && d.y < 1.6f && new Vector2(d.x, d.z).magnitude < slamRadius)
+                    hurt.TakeDamage(chargeDamage, _element, transform.position);
+            }
+            Play(Characters.Anim.Idle);
+            yield return new WaitForSeconds(0.6f);
+        }
+
+        /// <summary>공중 RING: 플레이어를 가운데 둔 원뿔. 가만히 있으면 가운데 탄에, 어설프게 피하면 테두리에 맞는다</summary>
+        void AirCone(bool rage)
+        {
+            Vector3 aim = Aim3D();
+            Vector3 right = Vector3.Cross(Vector3.up, aim).normalized;
+            Vector3 up = Vector3.Cross(aim, right);
+            int n = rage ? 14 : 10;
+            float open = Mathf.Tan(15f * Mathf.Deg2Rad);
+            OrbAimed(aim, 13f, _element);
+            for (int i = 0; i < n; i++)
+            {
+                float a = i * Mathf.PI * 2f / n;
+                OrbAimed(aim + (right * Mathf.Cos(a) + up * Mathf.Sin(a)) * open, 12f, _element);
+            }
+            Feedback.Shake(0.3f);
+        }
+
+        /// <summary>공중 SPIRAL·TWIN_BEAM: 플레이어를 따라가며 좌우로 흔들리는 기총소사. 계속 움직여야 안 맞는다</summary>
+        IEnumerator AirStrafe(bool rage)
+        {
+            int shots = rage ? 30 : 20;
+            for (int i = 0; i < shots && Alive; i++)
+            {
+                Vector3 aim = Aim3D();
+                Turn(AimFlat(), 0.25f);
+                OrbAimed(Quaternion.AngleAxis(Mathf.Sin(i * 0.7f) * 14f, Vector3.up) * aim, 11f,
+                         _twin ? (i % 2 == 0 ? Element.Thunder : Element.Fire) : _element, 0f, 3f);
+                if (i % 10 == 9) Play(Characters.Anim.Breath);
+                yield return new WaitForSeconds(0.08f);
+            }
         }
 
         IEnumerator Loop()
@@ -123,6 +262,14 @@ namespace Dragonia.Enemies
             while (Alive)
             {
                 if (_player == null) { yield return null; continue; }
+
+                // 패턴 두어 개마다 날아오르거나 내려앉는다
+                if (--_untilSwitch < 0)
+                {
+                    yield return StartCoroutine(_air ? Land() : TakeOff());
+                    _untilSwitch = Random.Range(2, Raging ? 5 : 4);
+                }
+
                 string pattern = _patterns[_patternIndex++ % _patterns.Length];
 
                 // 1) 예고 — 몸을 일으키고 날개를 편다. 이걸 보고 피할 준비를 한다
@@ -145,6 +292,33 @@ namespace Dragonia.Enemies
         IEnumerator Run(string pattern)
         {
             bool rage = Raging;
+
+            // 하늘에서는 평면 패턴이 아무도 못 맞힌다. 같은 이름의 공중판으로 바꿔 쓴다
+            if (_air)
+            {
+                switch (pattern)
+                {
+                    case "RING":
+                        Play(Characters.Anim.Breath);
+                        yield return new WaitForSeconds(0.25f);
+                        AirCone(rage);
+                        yield break;
+                    case "SPIRAL":
+                    case "TWIN_BEAM":
+                        Play(Characters.Anim.Breath);
+                        yield return StartCoroutine(AirStrafe(rage));
+                        yield break;
+                    case "CHARGE":
+                        yield return StartCoroutine(DiveBomb(rage));
+                        yield break;
+                    case "BURROW":
+                    case "QUAKE":
+                        yield return StartCoroutine(Land());     // 땅이 있어야 쓰는 기술. 내려앉고 나서 쓴다
+                        _busy = true;
+                        break;
+                }
+            }
+
             Vector3 flat = AimFlat();
 
             switch (pattern)
@@ -362,6 +536,7 @@ namespace Dragonia.Enemies
                 return;
             }
             if (Mathf.Abs(hit.normal.y) > 0.5f) return;          // 바닥은 벽이 아니다
+            if (_diving) Touchdown();                              // 급강하하다 기둥에 박으면 그대로 떨어진다
             StartCoroutine(Stunned());
         }
 
@@ -448,7 +623,8 @@ namespace Dragonia.Enemies
             {
                 _hp = 0f;
                 StopAllCoroutines();
-                _charging = false;
+                _charging = false; _diving = false; _air = false;
+                if (_visual != null) _visual.SetFlying(false);
                 Play(Characters.Anim.Die);
                 Feedback.Shake(1.4f);
                 Feedback.HitStop(0.25f);
