@@ -20,10 +20,34 @@
 
 ## 열기
 
-Unity 2022.3 LTS 이상. `Packages/manifest.json`에 필요한 것이 적혀 있다
-(URP, Cinemachine, Input System, Newtonsoft JSON).
+**Unity 6000.3.11f1** (이 컴퓨터에 깔려 있는 버전에 맞춰 뒀다).
+Unity Hub ▸ Add ▸ Add project from disk ▸ 이 폴더.
 
-처음 열면 씬이 없다. 아래 "지금 해야 하는 일" 참고.
+### 이 저장소에 없는 것과 그 이유
+
+여기 있는 건 **소스와 데이터뿐**이다. Unity 가 스스로 만들어 내는 것들은 넣지 않았다
+(`.gitignore` 참고). 처음 열면 Unity 가 알아서 만든다:
+
+- `.meta` 파일 — 에셋마다 하나씩, 처음 열 때 생긴다
+- `Library/` — 캐시. 처음 열 때 몇 분 걸린다
+- `ProjectSettings/` 의 나머지 — 지금은 `ProjectVersion.txt` 만 있고 나머지는
+  기본값으로 채워진다
+
+**씬은 없다.** 빈 프로젝트로 열리는 게 정상이고, 아래 "지금 해야 하는 일"대로
+아레나 하나를 만들면 된다.
+
+### 입력 방식 주의
+
+스크립트가 예전 입력(`Input.GetAxisRaw`)을 쓴다. 혹시 프로젝트가
+**Input System Package (New)** 전용으로 잡혀 있으면 실행하자마자 예외가 난다.
+Edit ▸ Project Settings ▸ Player ▸ **Active Input Handling** 을
+`Both` 또는 `Input Manager (Old)` 로 둔다.
+
+### 열다가 꼬이면
+
+가장 확실한 길은 Unity Hub 에서 **새 3D 프로젝트를 만들고**, 거기에
+이 저장소의 `Assets/`, `Packages/manifest.json`, `Tools/`, `docs/` 를 덮어쓰는 것이다.
+그러면 Unity 가 제 손으로 만든 설정 위에 우리 코드만 얹힌다.
 
 ## 데이터 다시 뽑기
 
