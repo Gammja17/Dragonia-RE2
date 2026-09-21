@@ -65,9 +65,8 @@ namespace Dragonia.Characters
             if (prefab == null)
             {
                 // 모델이 아직 없어도 게임은 돌아가야 한다. 회색 상자를 세운다.
-                _model = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-                _model.name = $"(대역) {id}";
-                Destroy(_model.GetComponent<Collider>());
+                _model = Core.Primitives.Box($"(대역) {id}", new Color(0.82f, 0.82f, 0.86f), new Vector3(1f, 2f, 1f));
+                _model.transform.position = transform.position + Vector3.up;
             }
             else
             {

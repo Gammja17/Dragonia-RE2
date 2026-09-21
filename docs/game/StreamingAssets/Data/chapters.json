@@ -1,0 +1,100 @@
+{
+  "CHAPTERS": [
+    {
+      "id": "c1",
+      "title": "1장",
+      "name": "웨스턴 마을",
+      "done": {
+        "__fn": "(s) => s.quests.done.includes(id)"
+      },
+      "maps": [
+        "VILLAGE",
+        "EAST_ROAD",
+        "DOJO"
+      ],
+      "blocked": "아직은 마을 근처를 벗어나지 말라고 했다. 몸부터 키우자."
+    },
+    {
+      "id": "c2",
+      "title": "2장",
+      "name": "나팔 소리",
+      "done": {
+        "__fn": "(s) => s.quests.done.includes(id)"
+      },
+      "maps": [
+        "LAKE",
+        "SOUTH_ROAD"
+      ],
+      "blocked": "그쪽은 아직 이르다. 마을 일이 먼저다."
+    },
+    {
+      "id": "c3",
+      "title": "3장",
+      "name": "골짜기의 옛 수호룡",
+      "done": {
+        "__fn": "(s) => s.quests.done.includes(id)"
+      },
+      "maps": [
+        "HOLLOW",
+        "MORGATH_LAIR",
+        "FALLS"
+      ],
+      "blocked": "골짜기 너머는 아직 길이 막혀 있다."
+    },
+    {
+      "id": "c4",
+      "title": "4장",
+      "name": "굶는 계절",
+      "done": {
+        "__fn": "(s) => s.quests.done.includes(id)"
+      },
+      "maps": [
+        "JUNGLE",
+        "ZALGORA_LAIR",
+        "CLOUDTOP",
+        "SKY_RUINS"
+      ],
+      "blocked": "거기까지 갈 일은 아직 없다."
+    },
+    {
+      "id": "c5",
+      "title": "5장",
+      "name": "맡긴 알",
+      "done": {
+        "__fn": "(s) => s.quests.done.includes(id)"
+      },
+      "maps": [
+        "SNOW_ROAD",
+        "GLACIA_LAIR"
+      ],
+      "blocked": "거기까지 갈 일은 아직 없다."
+    },
+    {
+      "id": "c7",
+      "title": "7장",
+      "name": "사막 길",
+      "done": {
+        "__fn": "(s) => s.quests.done.includes(id)"
+      },
+      "maps": [
+        "DESERT",
+        "BASIL_LAIR",
+        "AUTUMN"
+      ],
+      "blocked": "화산 쪽은 아직 아무도 보내 주지 않는다."
+    },
+    {
+      "id": "c8",
+      "title": "8장",
+      "name": "잿마루",
+      "done": {
+        "__fn": "(s) => s.quests.done.includes(id)"
+      },
+      "maps": [
+        "VOLCANO",
+        "IGNAR_LAIR"
+      ],
+      "blocked": ""
+    }
+  ]
+}

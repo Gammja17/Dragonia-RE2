@@ -50,8 +50,11 @@ namespace Dragonia.Enemies
         Characters.DragonVisual _visual;
         Transform _mouth;
 
-        void Start()
+        IEnumerator Start()
         {
+            // 데이터는 씬보다 늦게 도착한다 (웹에서는 받아 와야 한다). 다 읽을 때까지 가만히 있는다
+            yield return new WaitUntil(() => Data.GameData.Loaded);
+
             Load();
             var p = GameObject.FindWithTag("Player");
             if (p != null) _player = p.transform;

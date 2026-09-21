@@ -1,0 +1,536 @@
+{
+  "COZY_TIERS": [
+    [
+      0,
+      "휑하다",
+      "아직 돌바닥뿐이다."
+    ],
+    [
+      6,
+      "살 만하다",
+      "조금씩 굴 같아진다."
+    ],
+    [
+      14,
+      "아늑하다",
+      "들어서면 마음이 놓인다."
+    ],
+    [
+      26,
+      "포근하다",
+      "누구라도 눌러앉고 싶어진다."
+    ],
+    [
+      40,
+      "누구의 집",
+      "이제 여기는 분명히 네 집이다."
+    ]
+  ],
+  "FURNITURE": {
+    "STRAW": {
+      "name": "마른 풀 잠자리",
+      "tile": [
+        3,
+        4
+      ],
+      "span": [
+        2,
+        1
+      ],
+      "cozy": 3,
+      "cost": {
+        "gold": 0
+      },
+      "note": "깔고 자면 등이 배기지 않는다."
+    },
+    "STOOL": {
+      "name": "나무 걸상",
+      "tile": [
+        0,
+        6
+      ],
+      "span": [
+        1,
+        1
+      ],
+      "cozy": 1,
+      "cost": {
+        "gold": 20
+      },
+      "note": "앉을 자리 하나쯤은 있어야지."
+    },
+    "TABLE": {
+      "name": "작은 탁자",
+      "tile": [
+        1,
+        6
+      ],
+      "span": [
+        1,
+        1
+      ],
+      "cozy": 2,
+      "cost": {
+        "gold": 45
+      },
+      "note": "올려놓을 데가 생겼다."
+    },
+    "RUBBLE": {
+      "name": "모아 둔 돌",
+      "tile": [
+        0,
+        1
+      ],
+      "span": [
+        1,
+        1
+      ],
+      "cozy": 1,
+      "cost": {
+        "gold": 10
+      },
+      "note": "주워 온 돌을 쌓아 두었다."
+    },
+    "FENCE": {
+      "name": "나무 울타리",
+      "tile": [
+        7,
+        5
+      ],
+      "span": [
+        1,
+        1
+      ],
+      "cozy": 1,
+      "cost": {
+        "gold": 25,
+        "HIDE": 1
+      },
+      "note": "구석을 나눠 놓는다."
+    },
+    "CHEST": {
+      "name": "보물함",
+      "tile": [
+        5,
+        7
+      ],
+      "span": [
+        1,
+        1
+      ],
+      "cozy": 2,
+      "cost": {
+        "gold": 60,
+        "ORE": 2
+      },
+      "note": "모은 것을 넣어 둔다."
+    },
+    "SHELF": {
+      "name": "책 선반",
+      "tile": [
+        3,
+        12
+      ],
+      "sheet": "inner",
+      "span": [
+        1,
+        2
+      ],
+      "cozy": 3,
+      "cost": {
+        "gold": 90,
+        "ORE": 1
+      },
+      "note": "엘더가 빌려준 두루마리들."
+    },
+    "ANVIL": {
+      "name": "작은 모루",
+      "tile": [
+        2,
+        6
+      ],
+      "span": [
+        1,
+        1
+      ],
+      "cozy": 2,
+      "cost": {
+        "gold": 70,
+        "ORE": 4
+      },
+      "note": "그론에게 얻어 온 것."
+    },
+    "SHIELD": {
+      "name": "나무 방패",
+      "tile": [
+        6,
+        5
+      ],
+      "span": [
+        1,
+        1
+      ],
+      "cozy": 2,
+      "wall": true,
+      "cost": {
+        "gold": 40,
+        "HIDE": 3
+      },
+      "note": "벽에 걸어 둔다."
+    },
+    "SWORD": {
+      "name": "걸어 둔 검",
+      "tile": [
+        10,
+        8
+      ],
+      "span": [
+        1,
+        1
+      ],
+      "cozy": 2,
+      "wall": true,
+      "cost": {
+        "gold": 80,
+        "ORE": 3,
+        "FANG": 2
+      },
+      "note": "쓸 일이 없기를."
+    },
+    "HAMMER": {
+      "name": "걸어 둔 망치",
+      "tile": [
+        9,
+        9
+      ],
+      "span": [
+        1,
+        1
+      ],
+      "cozy": 2,
+      "wall": true,
+      "cost": {
+        "gold": 75,
+        "ORE": 4
+      },
+      "note": "무겁다."
+    },
+    "STAFF": {
+      "name": "걸어 둔 지팡이",
+      "tile": [
+        9,
+        10
+      ],
+      "span": [
+        1,
+        1
+      ],
+      "cozy": 2,
+      "wall": true,
+      "cost": {
+        "gold": 85,
+        "FANG": 3
+      },
+      "note": "무엇에 쓰는지는 모른다."
+    },
+    "BANNER": {
+      "name": "붉은 깃발",
+      "tile": [
+        5,
+        2
+      ],
+      "span": [
+        1,
+        1
+      ],
+      "cozy": 3,
+      "wall": true,
+      "cost": {
+        "gold": 100,
+        "HIDE": 4
+      },
+      "note": "제 표식을 내건다."
+    },
+    "PICTURE": {
+      "name": "액자",
+      "tile": [
+        16,
+        0
+      ],
+      "sheet": "inner",
+      "span": [
+        2,
+        1
+      ],
+      "cozy": 3,
+      "wall": true,
+      "cost": {
+        "gold": 120,
+        "HIDE": 2
+      },
+      "note": "마을이 내려다보이는 그림."
+    },
+    "PILLAR": {
+      "name": "돌기둥",
+      "tile": [
+        6,
+        1
+      ],
+      "span": [
+        1,
+        2
+      ],
+      "cozy": 2,
+      "cost": {
+        "gold": 110,
+        "ORE": 6
+      },
+      "note": "천장을 받쳐 준다. 사실은 멋으로."
+    },
+    "POTIONS": {
+      "name": "약병 선반",
+      "tile": [
+        4,
+        12
+      ],
+      "sheet": "inner",
+      "span": [
+        1,
+        2
+      ],
+      "cozy": 1,
+      "cost": {
+        "gold": 35
+      },
+      "note": "무슨 맛인지는 모르겠다."
+    },
+    "ORB": {
+      "name": "빛나는 구슬",
+      "tile": [
+        6,
+        8
+      ],
+      "span": [
+        1,
+        1
+      ],
+      "cozy": 4,
+      "light": "#9fe3ff",
+      "cost": {
+        "gold": 150,
+        "ORE": 3,
+        "FANG": 3
+      },
+      "note": "밤에도 굴이 환하다."
+    },
+    "BRAZIER": {
+      "name": "화로",
+      "tile": [
+        10,
+        12
+      ],
+      "sheet": "inner",
+      "span": [
+        2,
+        1
+      ],
+      "cozy": 4,
+      "light": "#ffb347",
+      "cost": {
+        "gold": 130,
+        "ORE": 5
+      },
+      "note": "불을 피워 두면 겨울에도 따뜻하다."
+    },
+    "BED": {
+      "name": "푹신한 잠자리",
+      "tile": [
+        16,
+        1
+      ],
+      "sheet": "inner",
+      "span": [
+        1,
+        3
+      ],
+      "cozy": 5,
+      "cost": {
+        "gold": 140,
+        "HIDE": 4
+      },
+      "note": "마른 풀보다야 낫다."
+    },
+    "CHAIR": {
+      "name": "등받이 의자",
+      "tile": [
+        15,
+        4
+      ],
+      "sheet": "inner",
+      "span": [
+        1,
+        3
+      ],
+      "cozy": 2,
+      "cost": {
+        "gold": 55
+      },
+      "note": "기대앉으면 꼬리가 편하다."
+    },
+    "LONGTABLE": {
+      "name": "긴 탁자",
+      "tile": [
+        14,
+        7
+      ],
+      "sheet": "inner",
+      "span": [
+        3,
+        2
+      ],
+      "cozy": 3,
+      "cost": {
+        "gold": 120
+      },
+      "note": "여럿이 둘러앉을 수 있다."
+    },
+    "CUPBOARD": {
+      "name": "찬장",
+      "tile": [
+        6,
+        10
+      ],
+      "sheet": "inner",
+      "span": [
+        3,
+        2
+      ],
+      "cozy": 3,
+      "cost": {
+        "gold": 150,
+        "ORE": 2
+      },
+      "note": "넣어 둘 데가 넉넉하다."
+    },
+    "DRESSER": {
+      "name": "서랍장",
+      "tile": [
+        10,
+        7
+      ],
+      "sheet": "inner",
+      "span": [
+        3,
+        2
+      ],
+      "cozy": 3,
+      "cost": {
+        "gold": 135
+      },
+      "note": "뭘 넣었는지는 잊었다."
+    },
+    "FIREPLACE": {
+      "name": "벽난로",
+      "tile": [
+        12,
+        11
+      ],
+      "sheet": "inner",
+      "span": [
+        2,
+        3
+      ],
+      "cozy": 6,
+      "light": "#ffb347",
+      "cost": {
+        "gold": 220,
+        "ORE": 8
+      },
+      "note": "굴 전체가 따뜻해진다."
+    },
+    "PLANT": {
+      "name": "화분 나무",
+      "tile": [
+        8,
+        12
+      ],
+      "sheet": "inner",
+      "span": [
+        1,
+        2
+      ],
+      "cozy": 2,
+      "cost": {
+        "gold": 50
+      },
+      "note": "굴 안에서도 잘 자란다."
+    },
+    "WINDOW": {
+      "name": "창",
+      "tile": [
+        9,
+        4
+      ],
+      "sheet": "inner",
+      "span": [
+        2,
+        2
+      ],
+      "cozy": 4,
+      "wall": true,
+      "cost": {
+        "gold": 180,
+        "ORE": 3
+      },
+      "note": "바위를 뚫어 바깥을 냈다."
+    },
+    "NIGHTSKY": {
+      "name": "밤하늘 그림",
+      "tile": [
+        14,
+        0
+      ],
+      "sheet": "inner",
+      "span": [
+        2,
+        1
+      ],
+      "cozy": 3,
+      "wall": true,
+      "cost": {
+        "gold": 110,
+        "HIDE": 2
+      },
+      "note": "떨어지던 날의 하늘."
+    }
+  },
+  "FURNITURE_IDS": [
+    "STRAW",
+    "STOOL",
+    "TABLE",
+    "RUBBLE",
+    "FENCE",
+    "CHEST",
+    "SHELF",
+    "ANVIL",
+    "SHIELD",
+    "SWORD",
+    "HAMMER",
+    "STAFF",
+    "BANNER",
+    "PICTURE",
+    "PILLAR",
+    "POTIONS",
+    "ORB",
+    "BRAZIER",
+    "BED",
+    "CHAIR",
+    "LONGTABLE",
+    "CUPBOARD",
+    "DRESSER",
+    "FIREPLACE",
+    "PLANT",
+    "WINDOW",
+    "NIGHTSKY"
+  ]
+}

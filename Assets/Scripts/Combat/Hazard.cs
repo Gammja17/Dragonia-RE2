@@ -48,11 +48,11 @@ namespace Dragonia.Combat
             }
             else
             {
-                // 표식 프리팹이 아직 없어도 보여야 한다. 납작한 원통으로 대신한다
-                var disc = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-                Destroy(disc.GetComponent<Collider>());
+                // 표식 프리팹이 아직 없어도 보여야 한다. 납작한 상자로 대신한다
+                var disc = Core.Primitives.Box("예고", Element.ColorOf(_element), new Vector3(_radius * 2f, 0.04f, _radius * 2f));
                 disc.transform.SetParent(transform, false);
-                disc.transform.localScale = new Vector3(_radius * 2f, 0.02f, _radius * 2f);
+                disc.transform.localPosition = new Vector3(0f, 0.03f, 0f);
+                Core.Primitives.MakeTransparent(disc.GetComponent<Renderer>());
                 _marker = disc.transform;
             }
             Tint(0.25f);
@@ -80,7 +80,7 @@ namespace Dragonia.Combat
                 if (_marker != null)
                 {
                     float pulse = 1f + Mathf.Sin(_t * 18f) * 0.02f * k;
-                    _marker.localScale = new Vector3(_radius * 2f * pulse, 0.02f, _radius * 2f * pulse);
+                    _marker.localScale = new Vector3(_radius * 2f * pulse, 0.04f, _radius * 2f * pulse);
                 }
                 if (_t >= _delay) Burst();
                 return;

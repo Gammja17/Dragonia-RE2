@@ -1,0 +1,15 @@
+<!--
+  빌드할 때 안 쓰는 클래스를 쳐 내는데(코드 스트리핑), 그 바람에 실행 중에
+  만들어 쓰는 것들이 사라진다.
+
+  GameObject.CreatePrimitive 는 언제나 콜라이더를 같이 붙인다. 우리는 그걸 바로
+  지우지만, 붙이는 순간에 클래스가 없으면 터진다:
+
+      Can't add component because class 'CapsuleCollider' doesn't exist!
+
+  모델이 아직 없을 때 세우는 회색 대역과, 바닥에 까는 예고 표식이 이 방식을 쓴다.
+  둘 다 게임이 돌아가는 데 꼭 필요하므로 물리 모듈을 남겨 둔다.
+-->
+<linker>
+  <assembly fullname="UnityEngine.PhysicsModule" preserve="all"/>
+</linker>

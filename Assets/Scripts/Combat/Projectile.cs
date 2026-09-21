@@ -28,12 +28,8 @@ namespace Dragonia.Combat
             if (OrbPrefab != null) go = Instantiate(OrbPrefab, pos, Quaternion.identity);
             else
             {
-                go = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                Destroy(go.GetComponent<Collider>());
+                go = Core.Primitives.Box("탄", Element.ColorOf(element), Vector3.one * radius * 2f);
                 go.transform.position = pos;
-                go.transform.localScale = Vector3.one * radius * 2f;
-                var r = go.GetComponent<Renderer>();
-                if (r != null) r.material.color = Element.ColorOf(element);
             }
 
             var p = go.AddComponent<Projectile>();

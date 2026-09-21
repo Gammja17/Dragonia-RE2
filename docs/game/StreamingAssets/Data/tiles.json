@@ -1,0 +1,1058 @@
+{
+  "CAVE_FLOOR": [
+    [
+      0,
+      0
+    ],
+    [
+      7,
+      3
+    ],
+    [
+      0,
+      0
+    ],
+    [
+      7,
+      3
+    ],
+    [
+      0,
+      1
+    ],
+    [
+      0,
+      2
+    ]
+  ],
+  "CAVE_RUBBLE": [
+    [
+      5,
+      3
+    ],
+    [
+      6,
+      3
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      6,
+      4
+    ],
+    [
+      5,
+      5
+    ],
+    [
+      6,
+      5
+    ],
+    [
+      5,
+      6
+    ]
+  ],
+  "CAVE_TORCH": [
+    0,
+    6
+  ],
+  "CAVE_VOID": {
+    "C": [
+      12,
+      5
+    ],
+    "N": [
+      12,
+      4
+    ],
+    "S": [
+      12,
+      6
+    ],
+    "W": [
+      11,
+      5
+    ],
+    "E": [
+      13,
+      5
+    ],
+    "NW": [
+      11,
+      4
+    ],
+    "NE": [
+      13,
+      4
+    ],
+    "SW": [
+      11,
+      6
+    ],
+    "SE": [
+      13,
+      6
+    ],
+    "iSE": [
+      14,
+      4
+    ],
+    "iSW": [
+      15,
+      4
+    ],
+    "iNE": [
+      14,
+      5
+    ],
+    "iNW": [
+      15,
+      5
+    ]
+  },
+  "CLIFF": {
+    "C": [
+      [
+        1,
+        5
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        1,
+        6
+      ],
+      [
+        2,
+        6
+      ]
+    ],
+    "N": [
+      [
+        1,
+        4
+      ],
+      [
+        2,
+        4
+      ]
+    ],
+    "S": [
+      [
+        1,
+        7
+      ],
+      [
+        2,
+        7
+      ]
+    ],
+    "W": [
+      [
+        0,
+        5
+      ],
+      [
+        0,
+        6
+      ]
+    ],
+    "E": [
+      [
+        3,
+        5
+      ],
+      [
+        3,
+        6
+      ]
+    ],
+    "NW": [
+      [
+        0,
+        4
+      ]
+    ],
+    "NE": [
+      [
+        3,
+        4
+      ]
+    ],
+    "SW": [
+      [
+        0,
+        7
+      ]
+    ],
+    "SE": [
+      [
+        3,
+        7
+      ]
+    ]
+  },
+  "CLIFF_FACE": {
+    "body": [
+      [
+        1,
+        12
+      ],
+      [
+        2,
+        12
+      ]
+    ],
+    "foot": [
+      [
+        1,
+        15
+      ],
+      [
+        2,
+        15
+      ]
+    ]
+  },
+  "DIRT": {
+    "C": [
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        2
+      ]
+    ],
+    "N": [
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ]
+    ],
+    "S": [
+      [
+        1,
+        3
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "W": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        2
+      ]
+    ],
+    "E": [
+      [
+        3,
+        1
+      ],
+      [
+        3,
+        2
+      ]
+    ],
+    "NW": [
+      [
+        0,
+        0
+      ]
+    ],
+    "NE": [
+      [
+        3,
+        0
+      ]
+    ],
+    "SW": [
+      [
+        0,
+        3
+      ]
+    ],
+    "SE": [
+      [
+        3,
+        3
+      ]
+    ],
+    "iSE": [
+      [
+        4,
+        0
+      ]
+    ],
+    "iSW": [
+      [
+        5,
+        0
+      ]
+    ],
+    "iNE": [
+      [
+        4,
+        1
+      ]
+    ],
+    "iNW": [
+      [
+        5,
+        1
+      ]
+    ]
+  },
+  "GRASS": [
+    [
+      1,
+      5
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      2,
+      6
+    ]
+  ],
+  "GRASS_DECOR": [
+    [
+      8,
+      6
+    ],
+    [
+      9,
+      6
+    ],
+    [
+      10,
+      6
+    ],
+    [
+      10,
+      5
+    ],
+    [
+      9,
+      5
+    ]
+  ],
+  "NEST_RING": [
+    [
+      4,
+      3
+    ],
+    [
+      5,
+      3
+    ],
+    [
+      4,
+      4
+    ],
+    [
+      5,
+      4
+    ]
+  ],
+  "PROP_SPRITES": {
+    "TREE": [
+      {
+        "sheet": "trees",
+        "sx": 0,
+        "sy": 0,
+        "sw": 80,
+        "sh": 96,
+        "ax": 0.5,
+        "ay": 0.94
+      },
+      {
+        "sheet": "trees",
+        "sx": 80,
+        "sy": 0,
+        "sw": 80,
+        "sh": 96,
+        "ax": 0.5,
+        "ay": 0.94
+      }
+    ],
+    "STUMP": [
+      {
+        "sheet": "props",
+        "sx": 0,
+        "sy": 0,
+        "sw": 32,
+        "sh": 32,
+        "ax": 0.5,
+        "ay": 0.85
+      }
+    ],
+    "ROCK": [
+      {
+        "sheet": "props",
+        "sx": 32,
+        "sy": 0,
+        "sw": 32,
+        "sh": 32,
+        "ax": 0.5,
+        "ay": 0.85
+      }
+    ],
+    "BUSH": [
+      {
+        "sheet": "props",
+        "sx": 64,
+        "sy": 0,
+        "sw": 32,
+        "sh": 32,
+        "ax": 0.5,
+        "ay": 0.85
+      }
+    ],
+    "FERN": [
+      {
+        "sheet": "props",
+        "sx": 96,
+        "sy": 0,
+        "sw": 32,
+        "sh": 32,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "BERRY": [
+      {
+        "sheet": "props",
+        "sx": 64,
+        "sy": 0,
+        "sw": 32,
+        "sh": 32,
+        "ax": 0.5,
+        "ay": 0.85
+      }
+    ],
+    "HOUSE": [
+      {
+        "sheet": "village",
+        "sx": 96,
+        "sy": 0,
+        "sw": 80,
+        "sh": 80,
+        "ax": 0.5,
+        "ay": 0.92
+      }
+    ],
+    "FOUNTAIN": [
+      {
+        "sheet": "village",
+        "sx": 352,
+        "sy": 144,
+        "sw": 48,
+        "sh": 48,
+        "ax": 0.5,
+        "ay": 0.7,
+        "frames": [
+          [
+            352,
+            144
+          ],
+          [
+            400,
+            144
+          ],
+          [
+            448,
+            144
+          ]
+        ],
+        "fps": 7
+      }
+    ],
+    "CRATE": [
+      {
+        "sheet": "village",
+        "sx": 480,
+        "sy": 2,
+        "sw": 16,
+        "sh": 24,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "BARREL": [
+      {
+        "sheet": "village",
+        "sx": 528,
+        "sy": 4,
+        "sw": 16,
+        "sh": 24,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "SIGN": [
+      {
+        "sheet": "village",
+        "sx": 544,
+        "sy": 32,
+        "sw": 16,
+        "sh": 16,
+        "ax": 0.5,
+        "ay": 0.95
+      }
+    ],
+    "BOARD": [
+      {
+        "sheet": "village",
+        "sx": 544,
+        "sy": 32,
+        "sw": 16,
+        "sh": 16,
+        "ax": 0.5,
+        "ay": 0.95
+      }
+    ],
+    "CHEST": [
+      {
+        "sheet": "dungeon",
+        "sx": 80,
+        "sy": 112,
+        "sw": 16,
+        "sh": 16,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "CHEST_OPEN": [
+      {
+        "sheet": "dungeon",
+        "sx": 112,
+        "sy": 112,
+        "sw": 16,
+        "sh": 16,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "WELL": [
+      {
+        "sheet": "village",
+        "sx": 497,
+        "sy": 54,
+        "sw": 31,
+        "sh": 58,
+        "ax": 0.5,
+        "ay": 0.92
+      }
+    ],
+    "STALL": [
+      {
+        "sheet": "village",
+        "sx": 288,
+        "sy": 359,
+        "sw": 80,
+        "sh": 85,
+        "ax": 0.5,
+        "ay": 0.92
+      }
+    ],
+    "GATE": [
+      {
+        "sheet": "village",
+        "sx": 409,
+        "sy": 361,
+        "sw": 62,
+        "sh": 94,
+        "ax": 0.5,
+        "ay": 0.95
+      }
+    ],
+    "TEMPLE": [
+      {
+        "sheet": "village",
+        "sx": 98,
+        "sy": 361,
+        "sw": 28,
+        "sh": 23,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "RUIN": [
+      {
+        "sheet": "village",
+        "sx": 592,
+        "sy": 41,
+        "sw": 32,
+        "sh": 39,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "BANNER": [
+      {
+        "sheet": "village",
+        "sx": 54,
+        "sy": 464,
+        "sw": 26,
+        "sh": 55,
+        "ax": 0.5,
+        "ay": 0.95
+      }
+    ],
+    "STONE_WALL": [
+      {
+        "sheet": "village",
+        "sx": 91,
+        "sy": 103,
+        "sw": 26,
+        "sh": 33,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "CAVE_ARCH": [
+      {
+        "sheet": "village",
+        "sx": 168,
+        "sy": 504,
+        "sw": 48,
+        "sh": 40,
+        "ax": 0.5,
+        "ay": 0.95
+      }
+    ],
+    "GARDEN": [
+      {
+        "sheet": "village",
+        "sx": 0,
+        "sy": 448,
+        "sw": 58,
+        "sh": 128,
+        "ax": 0.5,
+        "ay": 0.95
+      }
+    ],
+    "VINE_PILLAR": [
+      {
+        "sheet": "village",
+        "sx": 1,
+        "sy": 225,
+        "sw": 15,
+        "sh": 31,
+        "ax": 0.5,
+        "ay": 0.92
+      }
+    ],
+    "STUMP_TABLE": [
+      {
+        "sheet": "village",
+        "sx": 565,
+        "sy": 168,
+        "sw": 35,
+        "sh": 72,
+        "ax": 0.5,
+        "ay": 0.95
+      }
+    ],
+    "BENCH": [
+      {
+        "sheet": "village",
+        "sx": 451,
+        "sy": 105,
+        "sw": 44,
+        "sh": 21,
+        "ax": 0.5,
+        "ay": 0.85
+      }
+    ],
+    "FENCE": [
+      {
+        "sheet": "village",
+        "sx": 355,
+        "sy": 112,
+        "sw": 43,
+        "sh": 21,
+        "ax": 0.5,
+        "ay": 0.85
+      }
+    ],
+    "BARRELS": [
+      {
+        "sheet": "village",
+        "sx": 528,
+        "sy": 0,
+        "sw": 32,
+        "sh": 28,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "CRATE_BIG": [
+      {
+        "sheet": "village",
+        "sx": 564,
+        "sy": 129,
+        "sw": 26,
+        "sh": 31,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "LADDER": [
+      {
+        "sheet": "village",
+        "sx": 420,
+        "sy": 22,
+        "sw": 7,
+        "sh": 38,
+        "ax": 0.5,
+        "ay": 0.95
+      }
+    ],
+    "CROPS": [
+      {
+        "sheet": "village",
+        "sx": 417,
+        "sy": 320,
+        "sw": 15,
+        "sh": 23,
+        "ax": 0.5,
+        "ay": 0.9
+      },
+      {
+        "sheet": "village",
+        "sx": 433,
+        "sy": 320,
+        "sw": 15,
+        "sh": 23,
+        "ax": 0.5,
+        "ay": 0.9
+      },
+      {
+        "sheet": "village",
+        "sx": 449,
+        "sy": 320,
+        "sw": 15,
+        "sh": 23,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "GRAVE": [
+      {
+        "sheet": "village",
+        "sx": 567,
+        "sy": 83,
+        "sw": 20,
+        "sh": 24,
+        "ax": 0.5,
+        "ay": 0.9
+      },
+      {
+        "sheet": "village",
+        "sx": 599,
+        "sy": 83,
+        "sw": 19,
+        "sh": 23,
+        "ax": 0.5,
+        "ay": 0.9
+      },
+      {
+        "sheet": "village",
+        "sx": 567,
+        "sy": 112,
+        "sw": 20,
+        "sh": 16,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "POT": [
+      {
+        "sheet": "village",
+        "sx": 564,
+        "sy": 1,
+        "sw": 9,
+        "sh": 13,
+        "ax": 0.5,
+        "ay": 0.9
+      }
+    ],
+    "ROCK_MOSS": [
+      {
+        "sheet": "village",
+        "sx": 69,
+        "sy": 26,
+        "sw": 25,
+        "sh": 21,
+        "ax": 0.5,
+        "ay": 0.8
+      },
+      {
+        "sheet": "village",
+        "sx": 112,
+        "sy": 81,
+        "sw": 16,
+        "sh": 14,
+        "ax": 0.5,
+        "ay": 0.8
+      },
+      {
+        "sheet": "village",
+        "sx": 129,
+        "sy": 83,
+        "sw": 15,
+        "sh": 13,
+        "ax": 0.5,
+        "ay": 0.8
+      }
+    ],
+    "PEBBLES": [
+      {
+        "sheet": "village",
+        "sx": 208,
+        "sy": 353,
+        "sw": 16,
+        "sh": 15,
+        "ax": 0.5,
+        "ay": 0.7
+      },
+      {
+        "sheet": "village",
+        "sx": 162,
+        "sy": 86,
+        "sw": 13,
+        "sh": 8,
+        "ax": 0.5,
+        "ay": 0.7
+      }
+    ],
+    "GRAVEL": [
+      {
+        "sheet": "village",
+        "sx": 193,
+        "sy": 371,
+        "sw": 31,
+        "sh": 28,
+        "ax": 0.5,
+        "ay": 0.7
+      }
+    ],
+    "SKULL": [
+      {
+        "sheet": "village",
+        "sx": 450,
+        "sy": 34,
+        "sw": 13,
+        "sh": 13,
+        "ax": 0.5,
+        "ay": 0.7
+      }
+    ],
+    "DEAD_BRANCH": [
+      {
+        "sheet": "village",
+        "sx": 433,
+        "sy": 34,
+        "sw": 15,
+        "sh": 14,
+        "ax": 0.5,
+        "ay": 0.7
+      }
+    ],
+    "STEPSTONE": [
+      {
+        "sheet": "village",
+        "sx": 177,
+        "sy": 161,
+        "sw": 47,
+        "sh": 14,
+        "ax": 0.5,
+        "ay": 0.7
+      }
+    ]
+  },
+  "SPARKLE_SHEET": {
+    "frames": 3,
+    "fps": 4,
+    "FULL": 0,
+    "DIAG": 1,
+    "SMALL": 2
+  },
+  "TILE": 48,
+  "TILE_IMAGES": {
+    "ground": "assets/tiles/forest.png",
+    "ground2": "assets/tiles/forest2.png",
+    "ground3": "assets/tiles/forest3.png",
+    "trees": "assets/tiles/forest_trees.png",
+    "trees2": "assets/tiles/forest_trees2.png",
+    "trees3": "assets/tiles/forest_trees3.png",
+    "props": "assets/tiles/forest_props.png",
+    "props2": "assets/tiles/forest_props2.png",
+    "props3": "assets/tiles/forest_props3.png",
+    "village": "assets/tiles/village.png",
+    "dungeon": "assets/tiles/dungeon.png",
+    "cave": "assets/tiles/cave.png",
+    "inner": "assets/tiles/inner.png",
+    "waterfall": "assets/tiles/waterfall.png",
+    "sparkle": "assets/tiles/sparkle.png"
+  },
+  "TILE_SCALE": 3,
+  "TILE_SRC": 16,
+  "WATER": {
+    "C": [
+      [
+        1,
+        9
+      ],
+      [
+        2,
+        9
+      ],
+      [
+        1,
+        10
+      ],
+      [
+        2,
+        10
+      ]
+    ],
+    "N": [
+      [
+        1,
+        8
+      ],
+      [
+        2,
+        8
+      ]
+    ],
+    "S": [
+      [
+        1,
+        11
+      ],
+      [
+        2,
+        11
+      ]
+    ],
+    "W": [
+      [
+        0,
+        9
+      ],
+      [
+        0,
+        10
+      ]
+    ],
+    "E": [
+      [
+        3,
+        9
+      ],
+      [
+        3,
+        10
+      ]
+    ],
+    "NW": [
+      [
+        0,
+        8
+      ]
+    ],
+    "NE": [
+      [
+        3,
+        8
+      ]
+    ],
+    "SW": [
+      [
+        0,
+        11
+      ]
+    ],
+    "SE": [
+      [
+        3,
+        11
+      ]
+    ],
+    "iSE": [
+      [
+        4,
+        6
+      ]
+    ],
+    "iSW": [
+      [
+        5,
+        6
+      ]
+    ],
+    "iNE": [
+      [
+        4,
+        7
+      ]
+    ],
+    "iNW": [
+      [
+        5,
+        7
+      ]
+    ]
+  },
+  "WATERFALL_SHEET": {
+    "frames": 6,
+    "fps": 10,
+    "TOP": 1,
+    "FALL": [
+      2,
+      3
+    ],
+    "CAP": [
+      4,
+      5
+    ],
+    "SPLASH": [
+      6,
+      7
+    ]
+  }
+}

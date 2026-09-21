@@ -1,0 +1,184 @@
+{
+  "CHORES": [
+    {
+      "id": "c_slime",
+      "title": "미끈한 것들",
+      "min": 1,
+      "note": "빨래터에 슬라임이 자꾸 기어든다. 여섯 마리만 치워 주면 빨래 한 번 대신 해 주겠다. — 포코",
+      "goal": {
+        "type": "kill",
+        "target": "SLIME",
+        "count": 6
+      },
+      "reward": {
+        "gold": 35,
+        "meat": 1,
+        "xp": 60
+      }
+    },
+    {
+      "id": "c_goblin",
+      "title": "시끄러운 고블린",
+      "min": 2,
+      "note": "숲의 고블린 놈들 때문에 낮잠을 못 자겠다. 다섯 마리만 조용히 시켜라. — 그론",
+      "goal": {
+        "type": "kill",
+        "target": "GOBLIN",
+        "count": 5
+      },
+      "reward": {
+        "gold": 50,
+        "meat": 2,
+        "xp": 120
+      }
+    },
+    {
+      "id": "c_bat",
+      "title": "골짜기의 날것들",
+      "min": 4,
+      "note": "달빛 골짜기 흡혈박쥐 여섯. 밤 순찰 나가는 애들이 자꾸 물린다. — 티아맷",
+      "goal": {
+        "type": "kill",
+        "target": "BAT",
+        "count": 6
+      },
+      "reward": {
+        "gold": 60,
+        "meat": 2,
+        "xp": 160
+      }
+    },
+    {
+      "id": "c_meat",
+      "title": "부엌이 비었다",
+      "min": 1,
+      "note": "고기 다섯 덩이. 누가 가져오든 값은 쳐 준다. 낚시로 잡은 것도 받는다. — 엘더",
+      "goal": {
+        "type": "collect",
+        "count": 5
+      },
+      "reward": {
+        "gold": 70,
+        "xp": 90
+      }
+    },
+    {
+      "id": "c_any12",
+      "title": "숲을 한 바퀴",
+      "min": 3,
+      "note": "숲이 시끄럽다. 아무거나 열둘. 종류는 안 따진다. — 카이론",
+      "goal": {
+        "type": "killAny",
+        "count": 12
+      },
+      "reward": {
+        "gold": 55,
+        "meat": 1,
+        "xp": 150
+      }
+    },
+    {
+      "id": "c_elite",
+      "title": "금빛 우두머리",
+      "min": 6,
+      "note": "금빛으로 빛나는 놈 둘. 무리가 커지기 전에 머리를 쳐야 한다. — 티아맷",
+      "goal": {
+        "type": "elite",
+        "count": 2
+      },
+      "reward": {
+        "gold": 140,
+        "meat": 2,
+        "xp": 380
+      }
+    },
+    {
+      "id": "c_chest",
+      "title": "숲의 보물",
+      "min": 3,
+      "note": "옛 용들이 묻어 둔 상자가 숲에 남아 있다. 다섯 개만 찾아 열어 봐라. 내용물은 네 거다. — 그론",
+      "goal": {
+        "type": "chest",
+        "count": 5
+      },
+      "reward": {
+        "gold": 90,
+        "xp": 220
+      }
+    },
+    {
+      "id": "c_upgrade",
+      "title": "모루를 데워 둬라",
+      "min": 4,
+      "note": "모루가 식으면 못 쓴다. 비늘 두 번만 두드리고 가라. 값은 깎아 준다. — 그론",
+      "goal": {
+        "type": "upgrade",
+        "count": 2
+      },
+      "reward": {
+        "gold": 60,
+        "meat": 2,
+        "xp": 140
+      }
+    },
+    {
+      "id": "c_tag",
+      "title": "놀아 줄 용 구함",
+      "min": 1,
+      "note": "술래잡기 두 판! 이기면 내 간식 줌! 지면 안 줌! — 포코",
+      "goal": {
+        "type": "tag",
+        "count": 2
+      },
+      "reward": {
+        "gold": 40,
+        "meat": 2,
+        "xp": 110
+      }
+    },
+    {
+      "id": "c_spar",
+      "title": "수련장 상대",
+      "min": 5,
+      "note": "대련 한 판. 허수아비는 반격을 안 해서 늘어. — 티아맷",
+      "goal": {
+        "type": "spar",
+        "count": 1
+      },
+      "reward": {
+        "gold": 80,
+        "xp": 200
+      }
+    },
+    {
+      "id": "c_raid",
+      "title": "망루 교대",
+      "min": 5,
+      "note": "습격 두 번만 대신 막아 다오. 이번 주는 손이 모자라다. — 엘더",
+      "goal": {
+        "type": "raid",
+        "count": 2
+      },
+      "reward": {
+        "gold": 160,
+        "meat": 3,
+        "xp": 400
+      }
+    },
+    {
+      "id": "c_delve",
+      "title": "굴 아래 심부름",
+      "min": 7,
+      "note": "굴 지하 두 층까지. 아래쪽 공기가 어떤지 보고만 와라. — 카이론",
+      "goal": {
+        "type": "delve",
+        "count": 2
+      },
+      "reward": {
+        "gold": 120,
+        "meat": 2,
+        "xp": 300
+      }
+    }
+  ]
+}

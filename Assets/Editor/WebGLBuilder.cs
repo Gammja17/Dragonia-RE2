@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEditor;
+using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine;
 
@@ -65,6 +66,13 @@ namespace Dragonia.EditorTools
             PlayerSettings.WebGL.compressionFormat = WebGLCompressionFormat.Disabled;
             PlayerSettings.WebGL.dataCaching = false;
             PlayerSettings.WebGL.exceptionSupport = WebGLExceptionSupport.None;   // 빌드를 가볍게
+
+            // 안 쓰는 클래스를 쳐 내면(코드 스트리핑) 실행 중에 만들어 쓰는 것들이 사라진다.
+            // GameObject.CreatePrimitive 가 붙이는 콜라이더들이 그래서 없어졌다:
+            //     Can't add component because class 'SphereCollider' doesn't exist!
+            // link.xml 로 모듈을 남겨 봤지만 전부 걸리지는 않았다. 덜 쳐 내게 한다.
+            // 모델이 붙고 대역을 안 쓰게 되면 그때 다시 올려도 된다.
+            PlayerSettings.SetManagedStrippingLevel(NamedBuildTarget.WebGL, ManagedStrippingLevel.Minimal);
 
             PlayerSettings.companyName = "gamuza";
             PlayerSettings.productName = "DRAGONIA RE2";

@@ -51,6 +51,10 @@ for (const file of files) {
     });
 }
 
+// 웹(WebGL)에는 파일 시스템이 없어서 폴더를 훑을 수가 없다.
+// 어떤 파일이 있는지 게임이 알 수 있도록 목록을 같이 남긴다.
+await writeFile(path.join(outDir, '_files.json'), JSON.stringify(report.map(r => r.name), null, 2), 'utf8');
+
 const width = Math.max(...report.map(r => r.name.length));
 console.log('\n뽑아낸 것 →', path.resolve(outDir), '\n');
 for (const r of report) {
