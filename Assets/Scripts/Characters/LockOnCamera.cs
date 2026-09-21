@@ -178,7 +178,7 @@ namespace Dragonia.Characters
                 Vector3 d = TargetPoint - from;
                 if (d.sqrMagnitude > 0.001f) return d.normalized;
             }
-            if (airborne) return transform.forward;
+            if (airborne) return (transform.position + transform.forward * 60f - from).normalized;   // 화면 한가운데가 가리키는 먼 점
             return Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
         }
     }

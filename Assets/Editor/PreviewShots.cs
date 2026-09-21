@@ -48,11 +48,11 @@ namespace Dragonia.EditorTools
             Shot("4_bite", new Vector3(4.5f, 2f, 3.5f), new Vector3(0f, 1.3f, 1f));
 
             // 4) 숨결
-            a.Play(Anim.Breath); Advance(a, 16);
+            a.SetBreathing(true); Advance(a, 16);
             Shot("5_breath", new Vector3(4.5f, 2f, 3.5f), new Vector3(0f, 1.4f, 1f));
 
             // 5) 나는 중 (날개 편 채 날갯짓)
-            a.Play(Anim.Idle); a.SetFlying(true); a.FlapKick(); a.transform.position = new Vector3(0f, 3f, 0f);
+            a.SetBreathing(false); a.Play(Anim.Idle); a.SetFlying(true); a.FlapKick(); a.transform.position = new Vector3(0f, 3f, 0f);
             Advance(a, 9);
             Shot("6_fly", new Vector3(5.5f, 4.6f, 5.5f), new Vector3(0f, 3.6f, 0f));
             Shot("7_fly_front", new Vector3(0f, 4f, 8f), new Vector3(0f, 3.8f, 0f));

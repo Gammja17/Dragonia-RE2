@@ -12,8 +12,8 @@ namespace Dragonia.Characters
     ///   Space      땅에서는 뛰어오르고, 공중에서는 누를 때마다 날갯짓 한 번 —
     ///              연타하면 올라가고, 가만히 두면 날개를 편 채 천천히 내려온다
     ///   C (꾹)     날개를 접고 빨리 떨어진다
-    ///   왼클릭     땅: 물기 / 공중: 내려찍기 (상대에게 내리꽂고 착지 충격파)
-    ///   오른클릭·F 숨결. 공중에서는 제자리에 떠서 보는 방향 그대로 뿜는다
+    ///   왼클릭·F (꾹) 숨결. 발이 묶이지 않는다 — 걸으면서, 날면서 쏜다. 누르고 있는 동안 기력이 샌다
+    ///   오른클릭   땅: 물기 / 공중: 내려찍기 (상대에게 내리꽂고 착지 충격파)
     ///   1 2 3      불 · 얼음 · 번개. 눈빛이 같이 바뀐다
     ///
     /// 나는 데는 기력이 든다. 바닥 장판은 날아서 피할 수 있지만 영원히 떠 있을 수는 없다.
@@ -58,10 +58,14 @@ namespace Dragonia.Characters
         public float biteArc = 120f;
 
         [Header("숨결")]
-        public float breathTime = 0.9f;
-        public float breathDamage = 6f;
-        public float breathCost = 22f;
-        public float breathInterval = 0.055f;
+        public float breathDamage = 5f;
+        public float breathInterval = 0.085f;
+        [Tooltip("뿜는 동안 1초에 새는 기력")]
+        public float breathDrain = 14f;
+        [Tooltip("이만큼은 있어야 뿜기 시작한다. 바닥난 직후에 찔끔찔끔 나오지 않게")]
+        public float breathMin = 8f;
+        [Tooltip("땅에서 뿜는 동안의 걸음 속도 배율")]
+        public float breathMoveScale = 0.8f;
 
         [Header("내려찍기")]
         public float diveSpeed = 24f;
@@ -81,10 +85,10 @@ namespace Dragonia.Characters
         public bool Invulnerable => _iframe || _hurt > 0f || !Alive;
         public bool Airborne => !_grounded;
 
-        enum State { Free, Dodge, Bite, Breath, Dive, Dead }
+        enum State { Free, Dodge, Bite, Dive, Dead }
         State _state;
         float _stateTime, _exhaust, _vy, _hurt, _nextPellet, _deadTimer;
-        bool _grounded = true, _winged, _iframe, _biteDone;
+        bool _grounded = true, _winged, _iframe, _biteDone, _breathing;
         Vector3 _dashDir, _diveDir, _knock;
 
         CharacterController _cc;
@@ -117,7 +121,6 @@ namespace Dragonia.Characters
                 case State.Free: Free(dt); break;
                 case State.Dodge: Dodge(dt); break;
                 case State.Bite: Bite(dt); break;
-                case State.Breath: Breath(dt); break;
                 case State.Dive: Dive(dt); break;
                 case State.Dead:
                     Step(Vector3.zero, dt, false);
@@ -128,7 +131,7 @@ namespace Dragonia.Characters
 
             // 기력: 땅에 발을 딛고 있을 때만 찬다
             if (_exhaust > 0f) _exhaust -= dt;
-            else if (_grounded && _state == State.Free && !Input.GetKey(KeyCode.LeftShift))
+            else if (_grounded && _state == State.Free && !_breathing && !Input.GetKey(KeyCode.LeftShift))
                 Stamina = Mathf.Min(maxStamina, Stamina + staminaRegen * dt);
 
             if (_visual != null) _visual.SetFlying(!_grounded && _winged);
@@ -140,7 +143,12 @@ namespace Dragonia.Characters
         {
             Vector3 wish = CameraRelative(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             bool moving = wish.sqrMagnitude > 0.01f;
-            bool running = _grounded && moving && Input.GetKey(KeyCode.LeftShift) && Ready(1f);
+
+            // 숨결은 상태가 아니다. 누르고 있는 동안 걷기·날기 위에 얹혀서 나간다
+            bool wantBreath = LockOnCamera.ReadyForInput && (Input.GetMouseButton(0) || Input.GetKey(KeyCode.F));
+            SetBreathing(wantBreath && Ready(_breathing ? 0.01f : breathMin));
+
+            bool running = _grounded && moving && !_breathing && Input.GetKey(KeyCode.LeftShift) && Ready(1f);
             if (running) Spend(runDrain * dt);
 
             // Space: 땅에서는 뛰고, 공중에서는 날갯짓
@@ -156,11 +164,12 @@ namespace Dragonia.Characters
                 }
             }
 
-            float speed = _grounded ? (running ? runSpeed : walkSpeed) : flySpeed;
+            float speed = _grounded ? (running ? runSpeed : walkSpeed * (_breathing ? breathMoveScale : 1f)) : flySpeed;
             Step(wish * speed, dt, true);
 
             Transform target = _cam != null ? _cam.Target : null;
-            if (target != null) Face(target.position - transform.position, dt);
+            if (_breathing) BreathStream(dt);                       // 몸이 조준한 쪽을 본다 (옆걸음·뒷걸음으로 쏜다)
+            else if (target != null) Face(target.position - transform.position, dt);
             else if (moving) Face(wish, dt);
 
             if (_visual != null) _visual.SetSpeed(_grounded ? wish.magnitude * (running ? 1f : 0.5f) : wish.magnitude * 0.6f);
@@ -174,16 +183,10 @@ namespace Dragonia.Characters
             // 첫 클릭은 커서를 잠그는 데 쓰인다. 그 클릭으로 허공을 물지 않게 한다
             if (!LockOnCamera.ReadyForInput) return;
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(1))
             {
                 if (_grounded) { _biteDone = false; Enter(State.Bite, Anim.Bite); }
                 else if (Ready(diveCost)) StartDive();
-            }
-            else if ((Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.F)) && Ready(breathCost))
-            {
-                Spend(breathCost);
-                _nextPellet = breathTime * 0.25f;
-                Enter(State.Breath, Anim.Breath);
             }
         }
 
@@ -247,26 +250,31 @@ namespace Dragonia.Characters
 
         // ---------------------------------------------------------------- 숨결
 
-        void Breath(float dt)
+        void SetBreathing(bool on)
         {
-            // 땅에서는 발이 묶이고, 공중에서는 그 자리에 떠서 뿜는다
-            if (!_grounded) { _winged = true; _vy = Mathf.MoveTowards(_vy, 0f, 40f * dt); }
-            Step(Vector3.zero, dt, _grounded);
+            if (on == _breathing) return;
+            _breathing = on;
+            _nextPellet = 0.12f;                                    // 입을 벌리는 짧은 틈
+            if (_visual != null) _visual.SetBreathing(on);
+        }
+
+        void BreathStream(float dt)
+        {
+            Spend(breathDrain * dt);
 
             Vector3 from = _visual != null && _visual.Mouth != null ? _visual.Mouth.position : transform.position + Vector3.up * 1.5f;
             Vector3 aim = _cam != null ? _cam.AimDirection(from, !_grounded) : transform.forward;
-            Face(aim, dt * 1.5f);
+            Face(aim, dt * 1.6f);
+            if (_visual != null) _visual.SetAimPitch(Mathf.Asin(Mathf.Clamp(aim.y, -1f, 1f)) * Mathf.Rad2Deg);
 
             // 한 번에 다 쏘지 않고 줄기로 흘려보낸다. 가까이서 쏠수록 많이 맞는다
-            float start = breathTime * 0.25f, end = breathTime * 0.85f;
-            while (_stateTime >= _nextPellet && _nextPellet < end)
+            _nextPellet -= dt;
+            while (_nextPellet <= 0f)
             {
                 _nextPellet += breathInterval;
-                if (_stateTime < start) continue;
-                Vector3 d = Quaternion.Euler(Random.Range(-4f, 4f), Random.Range(-6f, 6f), 0f) * aim;
-                Projectile.Spawn(from, d, Faction.Player, breathDamage, element, 19f, 0.7f, 0.3f);
+                Vector3 d = Quaternion.Euler(Random.Range(-3.5f, 3.5f), Random.Range(-5f, 5f), 0f) * aim;
+                Projectile.Spawn(from, d, Faction.Player, breathDamage, element, 21f, 0.75f, 0.3f);
             }
-            if (_stateTime >= breathTime) Finish();
         }
 
         // ---------------------------------------------------------------- 내려찍기
@@ -353,6 +361,7 @@ namespace Dragonia.Characters
 
         void Enter(State s, string anim)
         {
+            SetBreathing(false);
             _state = s;
             _stateTime = 0f;
             if (_visual != null) _visual.Play(anim);

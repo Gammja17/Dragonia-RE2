@@ -288,7 +288,7 @@ namespace Dragonia.EditorTools
             hud.center = Label(rt, "Center", font, "", 64, TextAnchor.MiddleCenter, new Vector2(0.5f, 0.5f), new Vector2(0f, 60f), new Vector2(1400f, 120f), Gold);
             hud.center.rectTransform.pivot = new Vector2(0.5f, 0.5f);
             hud.hint = Label(rt, "Hint", font,
-                "WASD move   SHIFT dash / hold: run   SPACE jump, mash: FLY   C drop\nLMB bite (air: dive slam)   RMB or F breath   Q lock-on   1 2 3 element",
+                "WASD move   SHIFT dash / hold: run   SPACE jump, mash: FLY   C drop\nLMB (hold) breath - works while moving & flying   RMB bite (air: dive slam)   Q lock-on   1 2 3 element",
                 19, TextAnchor.LowerCenter, new Vector2(0.5f, 0f), new Vector2(0f, 22f), new Vector2(1500f, 60f), new Color(Parch.r, Parch.g, Parch.b, 0.75f));
             hud.hint.rectTransform.pivot = new Vector2(0.5f, 0f);
 

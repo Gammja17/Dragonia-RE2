@@ -22,6 +22,7 @@ namespace Dragonia.Characters
         // Animator 파라미터
         public const string PSpeed = "Speed";
         public const string PFlying = "Flying";
+        public const string PBreathing = "Breathing";   // 숨결은 걷기·날기 위에 얹는 층이다 (움직이면서 쏜다)
     }
 
     /// <summary>
@@ -131,6 +132,15 @@ namespace Dragonia.Characters
             if (_proc != null) _proc.SetFlying(flying);
             else if (Animator != null) Animator.SetBool(Anim.PFlying, flying);
         }
+
+        public void SetBreathing(bool on)
+        {
+            if (_proc != null) _proc.SetBreathing(on);
+            else if (Animator != null) Animator.SetBool(Anim.PBreathing, on);
+        }
+
+        /// <summary>조준의 위아래 각도 (도). 대역 용은 목을 그쪽으로 든다. 진짜 모델은 IK 를 달 때 쓴다</summary>
+        public void SetAimPitch(float degrees) { if (_proc != null) _proc.SetAimPitch(degrees); }
 
         public void FlapKick() { if (_proc != null) _proc.FlapKick(); }
         public void Flash() { if (_proc != null) _proc.Flash(); }
