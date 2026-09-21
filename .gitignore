@@ -1,10 +1,14 @@
 # Unity 가 만들어 내는 것들 — 저장소에 넣지 않는다
-[Ll]ibrary/
-[Tt]emp/
-[Oo]bj/
-[Bb]uild/
-[Bb]uilds/
-[Ll]ogs/
+# 앞에 / 를 붙여 저장소 맨 위에서만 걸리게 한다.
+# 예전엔 [Bb]uild/ 라고만 썼는데, 그게 docs/game/Build/ 까지 잡아먹어서
+# 웹 빌드의 알맹이(wasm·data·loader)가 통째로 안 올라갔다.
+# 페이지는 뜨는데 로딩 막대가 0% 에서 멈춰 있었다 — 파일이 404 였기 때문이다.
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
 [Uu]ser[Ss]ettings/
 [Mm]emoryCaptures/
 *.csproj
